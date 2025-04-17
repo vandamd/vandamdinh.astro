@@ -1,0 +1,235 @@
+---
+import { format, parseISO, formatDistanceToNowStrict } from 'date-fns';
+import { Image } from 'astro:assets';
+
+// Function to extract YouTube Video ID from URL
+const getYouTubeIdFromUrl = (url: string): string | null => {
+    try {
+        const parsedUrl = new URL(url);
+        if (parsedUrl.hostname === 'www.youtube.com' || parsedUrl.hostname === 'youtube.com') {
+            return parsedUrl.searchParams.get('v');
+        } else if (parsedUrl.hostname === 'youtu.be') {
+            return parsedUrl.pathname.substring(1);
+        }
+    } catch (e) {
+        console.error("Invalid URL:", url, e);
+    }
+    return null;
+};
+
+interface VideoInput {
+    youtubeUrl: string;
+}
+
+const videoData: VideoInput[] = [
+    { youtubeUrl: 'https://www.youtube.com/watch?v=yujP3-AxXsI' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=vO8HlVwaZw4' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=-A3IlRATIsI' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=8_xW-SqyJAU' },
+];
+const date = '17/04/2025'; // Update this date as needed
+
+const apiKey = import.meta.env.YOUTUBE_API_KEY;
+
+// Interfaces for YouTube API response
+interface YouTubeThumbnail {
+    url: string;
+    width: number;
+    height: number;
+}
+
+interface YouTubeThumbnails {
+    default?: YouTubeThumbnail;
+    medium?: YouTubeThumbnail;
+    high?: YouTubeThumbnail;
+    standard?: YouTubeThumbnail;
+    maxres?: YouTubeThumbnail;
+}
+
+interface YouTubeSnippet {
+    publishedAt: string;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: YouTubeThumbnails;
+    channelTitle: string;
+    tags?: string[];
+    categoryId: string;
+    liveBroadcastContent: string;
+    localized?: { title: string; description: string };
+    defaultAudioLanguage?: string;
+}
+
+interface YouTubeVideoItem {
+    kind: string;
+    etag: string;
+    id: string;
+    snippet: YouTubeSnippet;
+}
+
+interface YouTubeApiResponse {
+    kind: string;
+    etag: string;
+    items: YouTubeVideoItem[];
+    pageInfo: {
+        totalResults: number;
+        resultsPerPage: number;
+    };
+}
+
+// Interface for our processed data
+interface FetchedVideoData {
+    id: string;
+    title: string;
+    channelTitle: string;
+    thumbnailUrl: string | null;
+    youtubeUrl: string;
+    publishedDate: Date | null;
+}
+
+const fetchVideoDetails = async (videoIds: string[]): Promise<FetchedVideoData[]> => {
+    if (!videoIds.length || !apiKey) {
+        console.error("Missing Video IDs or API Key for YouTube fetch.");
+        const errorReason = !apiKey ? "Missing API Key" : "No valid video IDs";
+        return videoData.map(input => ({
+            id: getYouTubeIdFromUrl(input.youtubeUrl) || `error-${Math.random()}`,
+            title: errorReason,
+            channelTitle: 'Error',
+            thumbnailUrl: null,
+            youtubeUrl: input.youtubeUrl,
+            publishedDate: null,
+        }));
+    }
+
+    const idsString = videoIds.join(',');
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${idsString}&key=${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`YouTube API Error: ${response.status} ${await response.text()}`);
+        }
+        const data: YouTubeApiResponse = await response.json();
+
+        // Create a map for quick lookup
+        const detailsMap = new Map<string, YouTubeVideoItem>();
+        data.items.forEach(item => detailsMap.set(item.id, item));
+
+        // Map fetched data, ensuring order matches input `videoIds`
+        return videoIds.map(id => {
+            const item = detailsMap.get(id);
+            if (!item) {
+                console.warn(`Video details not found for ID: ${id}`);
+                // Find original URL for fallback
+                const originalInput = videoData.find(v => getYouTubeIdFromUrl(v.youtubeUrl) === id);
+                return {
+                    id: id,
+                    title: 'Video Not Found',
+                    channelTitle: 'Unknown',
+                    thumbnailUrl: null,
+                    youtubeUrl: originalInput ? originalInput.youtubeUrl : '#',
+                    publishedDate: null,
+                };
+            }
+
+            // Prefer 'high' or 'medium' thumbnail, fallback to default
+            const snippet = item.snippet;
+            const thumbnailUrl = snippet.thumbnails.high?.url || snippet.thumbnails.medium?.url || snippet.thumbnails.default?.url || null;
+            const publishedDate = snippet.publishedAt ? parseISO(snippet.publishedAt) : null;
+            const originalInput = videoData.find(v => getYouTubeIdFromUrl(v.youtubeUrl) === id)!;
+
+            return {
+                id: item.id,
+                title: snippet.title,
+                channelTitle: snippet.channelTitle,
+                thumbnailUrl: thumbnailUrl,
+                youtubeUrl: originalInput.youtubeUrl, // Use original URL for linking
+                publishedDate: publishedDate,
+            };
+        });
+
+    } catch (error) {
+        console.error('Failed to fetch video details from YouTube:', error);
+        // Return placeholder data for all videos on generic fetch error
+        return videoData.map(input => {
+            const id = getYouTubeIdFromUrl(input.youtubeUrl);
+            return {
+                id: id || `error-${Math.random()}`,
+                title: 'Error Loading Video',
+                channelTitle: 'Error',
+                thumbnailUrl: null,
+                youtubeUrl: input.youtubeUrl,
+                publishedDate: null,
+            };
+        });
+    }
+};
+
+// Main execution
+const videoIds = videoData.map(v => getYouTubeIdFromUrl(v.youtubeUrl)).filter((id): id is string => id !== null);
+let videos: FetchedVideoData[] = [];
+
+if (videoIds.length > 0) {
+    videos = await fetchVideoDetails(videoIds);
+} else {
+     console.warn("No valid YouTube Video IDs extracted from URLs.");
+     // Provide placeholder data if no IDs are valid
+     videos = videoData.map((input, index) => ({
+        id: `placeholder-${index}`,
+        title: 'Invalid URL',
+        channelTitle: 'Unknown',
+        thumbnailUrl: null,
+        youtubeUrl: input.youtubeUrl,
+        publishedDate: null
+    }));
+}
+---
+
+<div class="flex flex-col items-center justify-between">
+    <div class="w-full flex flex-row items-baseline justify-between">
+        <p class="text-[#99AABB] text-md font-light uppercase">Favourite Videos</p>
+        <!-- Optional: Add an updated date if desired -->
+        <!-- <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p> -->
+    </div>
+    <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
+
+    <div class="w-full grid grid-cols-4 gap-4 mt-4">
+        {videos.map(video => (
+            <a href={video.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block group relative" title={`Watch ${video.title} by ${video.channelTitle} on YouTube`}>
+                <div
+                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs px-3 py-1.5
+                           bg-[#435666] text-white/75 text-xs font-medium rounded-md shadow-lg
+                           opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100
+                           transition-all duration-200 ease-in-out pointer-events-none z-10"
+                >
+                    {video.title} - {video.channelTitle}
+                    {video.publishedDate && (
+                        <span class="block text-white/60 text-[10px] mt-0.5">
+                            {formatDistanceToNowStrict(video.publishedDate, { addSuffix: true })}
+                        </span>
+                    )}
+                    <div class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0
+                                border-x-8 border-x-transparent
+                                border-t-8 border-[#435666]">
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    {video.thumbnailUrl ? (
+                        <Image
+                            src={video.thumbnailUrl}
+                            alt={`Thumbnail for ${video.title}`}
+                            width={320}
+                            height={180}
+                            class="rounded-sm shadow-lg aspect-video object-cover outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500"
+                        />
+                    ) : (
+                        <div class="w-full aspect-video bg-gray-700 rounded-sm flex items-center justify-center outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500">
+                            <span class="text-white text-sm text-center p-2">No Thumbnail</span>
+                        </div>
+                    )}
+                </div>
+            </a>
+        ))}
+    </div>
+</div>

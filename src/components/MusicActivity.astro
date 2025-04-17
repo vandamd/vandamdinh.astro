@@ -1,0 +1,35 @@
+---
+import LastFmTrackDetails from './LastFmTrackDetails.astro';
+
+// Define the props expected from index.astro
+interface Props {
+    track: {
+        name: string;
+        artist: string;
+        albumArt: string | null;
+        url: string;
+        nowPlaying: boolean;
+    } | null;
+    statusText: string | null;
+}
+
+const { track, statusText } = Astro.props;
+---
+
+<div class="flex flex-col items-center justify-between relative">
+    <div class="w-full flex flex-row items-baseline justify-between">
+        <p class="text-[#99AABB] text-md font-light uppercase">Music Activity</p>
+        {/* Display status text directly from props */}
+        {statusText && (
+            <p class="text-[#99AABB]/80 text-xs font-light uppercase absolute top-[5px] right-0 mt-0 mr-0">
+                {statusText}
+            </p>
+        )}
+    </div>
+    <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
+
+    {/* Directly render LastFmTrackDetails, passing the track prop */}
+    <div class="w-full min-h-[72px]">
+        <LastFmTrackDetails track={track} statusText={statusText} />
+    </div>
+</div>

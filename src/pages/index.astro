@@ -1,11 +1,120 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import "../styles/global.css";
+import DefaultBackdrop from "../components/DefaultBackdrop.astro";
+import About from "../components/About.astro";
+import FavouriteFilms from "../components/FavouriteFilms.astro";
+import MusicActivity from "../components/MusicActivity.astro";
+import Goals from "../components/Goals.astro";
+import FavouriteAlbums from "../components/FavouriteAlbums.astro";
+import FavouriteVideos from "../components/FavouriteVideos.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Added: Define types for Last.fm data
+interface LastFmTrackData {
+    name: string;
+    artist: { '#text': string };
+    image: { size: string; '#text': string }[];
+    url: string;
+    '@attr'?: { nowplaying?: string };
+}
+
+interface MusicActivityProps {
+    track: {
+        name: string;
+        artist: string;
+        albumArt: string | null;
+        url: string;
+        nowPlaying: boolean;
+    } | null;
+    statusText: string | null;
+}
+
+// Added: Fetch Last.fm data
+let lastFmData: MusicActivityProps = { track: null, statusText: null };
+
+const apiKey = import.meta.env.LASTFM_API_KEY;
+const username = import.meta.env.LASTFM_USERNAME;
+
+if (!apiKey || !username) {
+    console.error("Last.fm API key or username missing in environment variables.");
+    lastFmData.statusText = "Server Misconfiguration";
+} else {
+    const endpoint = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json&limit=1`;
+    try {
+        const res = await fetch(endpoint);
+        if (!res.ok) {
+            throw new Error(`Last.fm API error: ${res.statusText} (Status: ${res.status})`);
+        }
+        const data = await res.json();
+
+        if (data.recenttracks && data.recenttracks.track && data.recenttracks.track.length > 0) {
+            const trackData: LastFmTrackData = data.recenttracks.track[0];
+            const albumArt = trackData.image.find((img) => img.size === 'medium');
+            const isNowPlaying = trackData['@attr']?.nowplaying === 'true';
+
+            lastFmData.track = {
+                name: trackData.name,
+                artist: trackData.artist['#text'],
+                albumArt: albumArt ? albumArt['#text'] : null,
+                url: trackData.url,
+                nowPlaying: isNowPlaying,
+            };
+            lastFmData.statusText = isNowPlaying ? 'Now Playing' : 'Last Played';
+        } else {
+            lastFmData.statusText = "No Recent Tracks";
+        }
+    } catch (error) {
+        console.error("Failed to fetch Last.fm data:", error);
+        // Use error message if available, otherwise default
+        lastFmData.statusText = error instanceof Error ? error.message : "API Fetch Error";
+    }
+}
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html>
+	<head>
+		<title>Vandam Dinh</title>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/jpg" href="/me.jpg" />
+	</head>
+
+	<body>
+		<DefaultBackdrop />
+
+		<header class="w-full h-[79px] bg-[#14181C] px-58 flex items-center">
+			<div class="w-full flex flex-row items-center justify-between">
+					<img src="/logo.svg" alt="Vandam Dinh" class="w-auto h-7" />
+					<div class="flex flex-row items-center gap-4">
+						<a href="https://github.com/vandamd" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] hover:text-white uppercase font-semibold">GitHub</a>
+
+						<button class="bg-[#06AC1D] hover:bg-[#009D1B] cursor-pointer px-2 py-[1.2px] border-t border-[#68CB6A]/70 rounded-sm text-white uppercase font-semibold flex flex-row items-center gap-1 pr-3 ml-2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+							Mail
+						</button>
+					</div>
+			</div>
+		</header>
+
+		<div class="w-full h-full flex flex-row items-center justify-center pt-17">
+			<h1 class="text-[#99AABB] text-3xl font-extralight">Welcome to my website, <span class="text-white underline decoration-[#99AABB]/40 decoration-1 underline-offset-6">friend</span>. Here's a little about me...</h1>
+		</div>
+
+		<div class="w-full h-full flex flex-row items-start justify-center pt-8 pb-120 px-58 gap-12">
+			<div class="w-[70%] flex flex-col gap-8">
+				<About />
+				<FavouriteFilms />
+				<FavouriteAlbums />
+				<FavouriteVideos />
+			</div>
+
+			<div class="w-[30%] flex flex-col gap-8">
+				<MusicActivity track={lastFmData.track} statusText={lastFmData.statusText} />
+
+				<Goals />
+				<div class="flex flex-col items-center justify-between">
+					<p class="w-full text-[#99AABB] text-md font-light uppercase">Posts</p>
+					<div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
