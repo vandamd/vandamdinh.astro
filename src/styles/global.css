@@ -1,2 +1,52 @@
 @import "tailwindcss";
 @plugin '@tailwindcss/typography';
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(8px);
+    scale: 0.99;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+    scale: 1;
+  }
+}
+
+@keyframes slideUpFadeInFurther {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(8px);
+    scale: 0.99;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+    scale: 1;
+  }
+}
+
+.fade-in-image {
+  animation: fadeIn 1.5s ease-in-out forwards;
+  opacity: 0;
+}
+
+.fade-in-delayed {
+  animation: slideUpFadeIn 0.8s ease-in-out 0s forwards;
+  opacity: 0;
+}
+
+.fade-in-delayed-2 {
+  animation: slideUpFadeInFurther 0.8s ease-in-out 0.5s forwards;
+  opacity: 0;
+}

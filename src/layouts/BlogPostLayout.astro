@@ -52,17 +52,17 @@ import { format, parse } from 'date-fns';
     </header>
 
     {frontmatter.img ? (
-        <Image src={frontmatter.img} alt={frontmatter.title + " Background"} class="absolute top-0 left-0 w-full h-[800px] object-cover mask-intersect mask-b-to-70% mask-t-from-80% mask-x-from-73% mask-x-to-93%" />
+        <Image src={frontmatter.img} alt={frontmatter.title + " Background"} class="fade-in-delayed absolute top-0 left-0 w-full h-[800px] object-cover mask-intersect mask-b-to-70% mask-t-from-80% mask-x-from-73% mask-x-to-93%" />
     ) : (
         <div class="absolute top-0 left-0 w-full h-[800px] bg-gray-800 flex items-center justify-center text-white">
             Image not found for: {frontmatter.img}
         </div>
     )}
 
-    <div class="pt-130 w-full h-full flex flex-row items-start justify-center pb-120 px-[5%] lg:px-[15%] gap-12">
+    <div class="fade-in-delayed-2 pt-130 w-full h-full flex flex-row items-start justify-center pb-120 px-[5%] lg:px-[15%] gap-12">
         <div class="w-[250px] flex flex-col gap-8">
             {frontmatter.song && (
-                <div class="">
+                <div>
                     <SongImage songUrl={frontmatter.song} className="" />
                 </div>
             )}
