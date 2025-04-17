@@ -1,0 +1,63 @@
+---
+import "../styles/global.css";
+const {frontmatter} = Astro.props;
+import DarkBackdrop from '../components/DarkBackdrop.astro';
+import { Image } from "astro:assets";
+import SongImage from '../components/SongImage.astro';
+import { format, parse } from 'date-fns';
+
+
+---
+<html>
+  <head>
+      <title>Vandam Dinh - {frontmatter.title}</title>
+      <meta charset="utf-8" />
+      <link rel="icon" type="image/jpg" href="/me.jpg" />
+  </head>
+
+  <body class="bg-[#15181D]">
+    <DarkBackdrop />
+
+    <header class="absolute top-0 left-0 w-full h-[79px] bg-transparent px-[15%] flex items-center z-10">
+        <div class="w-full flex flex-row items-center justify-between">
+                <a href="/"><img src="/logo.svg" alt="Vandam Dinh" class="w-auto h-7 shadow-sm" /></a>
+                <div class="flex flex-row items-center gap-4">
+                    <a href="https://github.com/vandamd" target="_blank" rel="noopener noreferrer" class="text-[#D7E0E8] hover:text-white uppercase font-semibold">GitHub</a>
+
+                    <button class="bg-[#06AC1D] hover:bg-[#009D1B] cursor-pointer px-2 py-[1.2px] border-t border-[#68CB6A]/70 rounded-sm text-white uppercase font-semibold flex flex-row items-center gap-1 pr-3 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        Mail
+                    </button>
+                </div>
+        </div>
+    </header>
+
+    {frontmatter.img ? (
+        <Image src={frontmatter.img} alt={frontmatter.title + " Background"} class="absolute top-0 left-0 w-full h-[800px] object-cover mask-intersect mask-b-to-70% mask-t-from-80% mask-x-from-73% mask-x-to-93%" />
+    ) : (
+        <div class="absolute top-0 left-0 w-full h-[800px] bg-gray-800 flex items-center justify-center text-white">
+            Image not found for: {frontmatter.img}
+        </div>
+    )}
+
+    <div class="pt-130 w-full h-full flex flex-row items-start justify-center pb-120 px-[15%] gap-12">
+        <div class="w-[250px] flex flex-col gap-8">
+            {frontmatter.song && (
+                <div class="">
+                    <SongImage songUrl={frontmatter.song} className="" />
+                </div>
+            )}
+        </div>
+
+        <div class="w-[70%] flex flex-col gap-6 z-1000">
+            <div class="flex flex-row items-baseline gap-4 pb-0">
+                <h1 class="text-white text-4xl font-bold font-serif text-shadow-lg/40">{frontmatter.title}</h1>
+                <p class="text-[#DDEEFF] text-xl font-extralight">{format(parse(frontmatter.date, 'dd/MM/yy', new Date()), 'MMMM d, yyyy')}</p>
+            </div>
+            <div class="text-[#99AABB] prose text-lg prose-a:text-[#DDEEFF] prose-a:underline prose-a:underline-offset-4 prose-a:decoration-[#99AABB]/50 prose-a:decoration-1 prose-a:hover:text-[#41BCF4] prose-h1:text-white prose-h2:text-white prose-h3:text-white prose-h4:text-white prose-h5:text-white prose-h6:text-white prose-h1:font-serif prose-h2:font-serif prose-h3:font-serif prose-h4:font-serif prose-h5:font-serif prose-h6:font-serif prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base prose-em:font-serif prose-hr:border-t-1 prose-hr:border-[#99AABB]/50 prose-ol:gap-2">
+                <slot />
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
