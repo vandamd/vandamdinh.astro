@@ -35,7 +35,7 @@ import { format, parse } from 'date-fns';
   <body class="bg-[#15181D]">
     <DarkBackdrop />
 
-    <header class="absolute top-0 left-0 w-full h-[79px] bg-transparent px-[15%] flex items-center z-10">
+    <header class="absolute top-0 left-0 w-full h-[79px] bg-transparent px-[5%] lg:px-[15%] flex items-center z-10">
         <div class="w-full flex flex-row items-center justify-between">
                 <a href="/"><img src="/logo.svg" alt="Vandam Dinh" class="w-auto h-7 shadow-sm" /></a>
                 <div class="flex flex-row items-center gap-4">
@@ -59,7 +59,7 @@ import { format, parse } from 'date-fns';
         </div>
     )}
 
-    <div class="pt-130 w-full h-full flex flex-row items-start justify-center pb-120 px-[15%] gap-12">
+    <div class="pt-130 w-full h-full flex flex-row items-start justify-center pb-120 px-[5%] lg:px-[15%] gap-12">
         <div class="w-[250px] flex flex-col gap-8">
             {frontmatter.song && (
                 <div class="">
@@ -79,7 +79,7 @@ import { format, parse } from 'date-fns';
         </div>
     </div>
 
-    <footer class="w-full h-full bg-[#2C3440] flex flex-row items-center justify-center gap-8 py-4 px-[15%]">
+    <footer class="w-full h-full bg-[#2C3440] flex flex-row items-center justify-center gap-8 py-4 px-[5%] lg:px-[15%]">
         <div class="flex flex-row gap-20">
             <p class="text-[#99AABB] text-sm font-light select-none">Film posters from <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">TMDB</a></p>
             <p class="text-[#99AABB] text-sm font-light select-none">Album covers from <a href="https://developer.spotify.com/documentation/web-api" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">Spotify</a></p>
