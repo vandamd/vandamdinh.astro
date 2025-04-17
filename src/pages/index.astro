@@ -78,8 +78,26 @@ if (!apiKey || !username) {
 <html>
 	<head>
 		<title>Vandam Dinh</title>
-		<meta charset="utf-8" />
+        <meta name="description" content="Vandam Dinh's personal website">
+        <meta name="application-name" content="Vandam Dinh">
+        <meta name="apple-mobile-web-app-title" content="Vandam Dinh">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="og:title" content="Vandam Dinh">
+        <meta name="og:description" content="Vandam Dinh's personal website">
+        <meta name="og:image" content="/og.png">
+        <meta name="og:image:width" content="2400">
+        <meta name="og:image:height" content="1260">
+        <meta name="og:url" content="https://vandamdinh.com">
+        <meta name="og:site_name" content="Vandam Dinh">
+        <meta name="og:type" content="website">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Vandam Dinh">
+        <meta name="twitter:description" content="Vandam Dinh's personal website">
+        <meta name="twitter:image" content="/og.png">
+        <meta name="twitter:image:width" content="2400">
+        <meta name="twitter:image:height" content="1260">
 		<link rel="icon" type="image/jpg" href="/me.jpg" />
+		<meta charset="utf-8" />
 	</head>
 
 	<body class="bg-[#15181D]">
@@ -101,13 +119,13 @@ if (!apiKey || !username) {
             </div>
         </header>
 
-        <Image src={myImage} alt="Vandam Dinh" class="absolute -translate-y-[80px] top-0 left-0 w-full h-[800px] object-cover mask-intersect mask-b-to-70% mask-t-from-80% mask-x-from-73% mask-x-to-93%" />
+        <Image src={myImage} alt="Vandam Dinh" class="absolute -translate-y-[80px] top-0 left-0 w-full h-[800px] object-cover mask-intersect mask-b-to-70% mask-t-from-80% mask-x-from-73% mask-x-to-93% z-0 pointer-events-none" />
 
 		<div class="w-full h-full flex flex-row items-center justify-center pt-90">
 			<h1 class="text-[#99AABB] text-3xl font-extralight">Welcome to my website, <span class="text-white underline decoration-[#99AABB]/40 decoration-1 underline-offset-6">friend</span>. Here's a little about me...</h1>
 		</div>
 
-		<div class="pt-10 w-full h-full flex flex-row items-start justify-center pb-60 px-[15%] gap-12">
+		<div class="pt-10 w-full h-full flex flex-row items-start justify-center pb-60 px-[15%] gap-12 z-10000">
 			<div class="w-[70%] flex flex-col gap-8">
 				<About />
 				<FavouriteFilms />
