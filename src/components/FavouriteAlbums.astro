@@ -23,10 +23,10 @@ interface AlbumInput {
 }
 
 const albumData: AlbumInput[] = [
+    { spotifyUrl: 'https://open.spotify.com/album/4Dgxy95K9BWkDUvQPTaYBb?si=mj77_xXJS4WD_tUM9TiiiQ' },
     { spotifyUrl: 'https://open.spotify.com/album/4HTy9WFTYooRjE9giTmzAF?si=2752212911984b64' },
     { spotifyUrl: 'https://open.spotify.com/album/5o9aTepLhqQL2gXuKPhd8g?si=d26ba81516d44760' },
     { spotifyUrl: 'https://open.spotify.com/album/5u8SP8bbxcA7zJoAusBfgc?si=6_pjUGnkRaaOpjTzw4ypsQ' },
-    { spotifyUrl: 'https://open.spotify.com/album/6XV76W17coHAKFdeyiGT08?si=3cgWXNPxRqKFQRZLt4bdHQ' },
 ];
 const date = '17/04/2025';
 
@@ -171,7 +171,7 @@ const orderedAlbums = albumData.map(inputAlbum => {
 
 <div class="flex flex-col items-center justify-between">
     <div class="w-full flex flex-row items-baseline justify-between">
-        <p class="text-[#99AABB] text-md font-light uppercase">Favourite Albums</p>
+        <p class="text-[#99AABB] text-md font-light uppercase select-none">Favourite Albums</p>
         <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p>
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>

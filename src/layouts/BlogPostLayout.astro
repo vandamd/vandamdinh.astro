@@ -6,7 +6,6 @@ import { Image } from "astro:assets";
 import SongImage from '../components/SongImage.astro';
 import { format, parse } from 'date-fns';
 
-
 ---
 <html>
   <head>
@@ -24,10 +23,12 @@ import { format, parse } from 'date-fns';
                 <div class="flex flex-row items-center gap-4">
                     <a href="https://github.com/vandamd" target="_blank" rel="noopener noreferrer" class="text-[#D7E0E8] hover:text-white uppercase font-semibold">GitHub</a>
 
-                    <button class="bg-[#06AC1D] hover:bg-[#009D1B] cursor-pointer px-2 py-[1.2px] border-t border-[#68CB6A]/70 rounded-sm text-white uppercase font-semibold flex flex-row items-center gap-1 pr-3 ml-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                        Mail
-                    </button>
+                    <a href="mailto:hi@vandamdinh.com">
+                        <button class="bg-[#06AC1D] hover:bg-[#009D1B] cursor-pointer px-2 py-[1.2px] border-t border-[#68CB6A]/70 rounded-sm text-white uppercase font-semibold flex flex-row items-center gap-1 pr-3 ml-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            Mail
+                        </button>
+                    </a>
                 </div>
         </div>
     </header>
@@ -59,5 +60,14 @@ import { format, parse } from 'date-fns';
             </div>
         </div>
     </div>
+
+    <footer class="w-full h-full bg-[#2C3440] flex flex-row items-center justify-center gap-8 py-4 px-[15%]">
+        <div class="flex flex-row gap-20">
+            <p class="text-[#99AABB] text-sm font-light select-none">Film posters from <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">TMDB</a></p>
+            <p class="text-[#99AABB] text-sm font-light select-none">Album covers from <a href="https://developer.spotify.com/documentation/web-api" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">Spotify</a></p>
+            <p class="text-[#99AABB] text-sm font-light select-none">Video thumbnails from <a href="https://developers.google.com/youtube/v3" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">YouTube</a></p>
+            <p class="text-[#99AABB] text-sm font-light select-none">Music activity data from <a href="https://www.last.fm/api" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">Last.fm</a></p>
+        </div>
+    </footer>
   </body>
 </html>

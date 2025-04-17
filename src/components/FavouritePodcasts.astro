@@ -3,10 +3,10 @@ import { format, parse, parseISO, formatDistanceToNowStrict } from 'date-fns';
 import { Image } from 'astro:assets';
 
 const videoData: VideoInput[] = [
-    { youtubeUrl: 'https://www.youtube.com/watch?v=-zjJpFYtx9s' },
-    { youtubeUrl: 'https://www.youtube.com/watch?v=CB0ETumpOd4' },
-    { youtubeUrl: 'https://www.youtube.com/watch?v=4KGsgpFiswQ' },
-    { youtubeUrl: 'https://www.youtube.com/watch?v=XYtm4UQ9izI' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=yujP3-AxXsI' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=KyfUysrNaco' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=AbDT2JTSnA8' },
+    { youtubeUrl: '' },
 ];
 const date = '17/04/2025';
 
@@ -185,7 +185,7 @@ if (videoIds.length > 0) {
 
 <div class="flex flex-col items-center justify-between">
     <div class="w-full flex flex-row items-baseline justify-between">
-        <p class="text-[#99AABB] text-md font-light uppercase select-none">Favourite Videos</p>
+        <p class="text-[#99AABB] text-md font-light uppercase select-none">Favourite Podcasts</p>
         <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p>
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>

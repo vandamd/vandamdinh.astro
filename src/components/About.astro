@@ -5,7 +5,7 @@ import { format, parse } from 'date-fns';
 
 <div class="flex flex-col items-center justify-between">
     <div class="w-full flex flex-row items-baseline justify-between">
-        <p class="text-[#99AABB] text-md font-light uppercase">{about.frontmatter.title}</p>
+        <p class="text-[#99AABB] text-md font-light uppercase select-none">{about.frontmatter.title}</p>
         <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(about.frontmatter.date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p>
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
