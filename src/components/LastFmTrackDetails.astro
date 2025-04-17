@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 
-// Define the props expected from MusicActivity.astro
 interface Props {
     track: {
         name: string;
@@ -10,51 +9,53 @@ interface Props {
         url: string;
         nowPlaying: boolean;
     } | null;
-    statusText: string | null; // Keep statusText for error/no track message
+    statusText: string | null;
 }
 
 const { track, statusText } = Astro.props;
 ---
 
-{/* Remove ID and initial style */}
-<div class="w-full">
+<div id="lastfm-track-details-content" class="w-full">
     {track ? (
-        <a href={track.url} target="_blank" rel="noopener noreferrer" class="w-full flex flex-row items-center mt-4 group">
-            {track.albumArt ? (
-                <Image
-                    src={track.albumArt}
-                    alt={`${track.name} album art`}
-                    width={48}
-                    height={48}
-                    loading="eager"
-                    class="w-12 h-12 rounded-sm shadow-md object-cover mr-3 outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-2 group-hover:outline-offset-[-2px] group-hover:outline-green-500"
-                />
-            ) : (
-                <div
-                    class="w-12 h-12 rounded-sm bg-gray-700 mr-3 flex items-center justify-center text-white/50 text-xl shadow-md outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-2 group-hover:outline-offset-[-2px] group-hover:outline-green-500"
-                >
-                    ?
-                </div>
-            )}
+        <a id="track-link" href={track.url} target="_blank" rel="noopener noreferrer" class="w-full flex flex-row items-center mt-4 group">
+            <div id="album-art-container" class="relative w-12 h-12 mr-3">
+                {track.albumArt ? (
+                    <Image
+                        id="album-art-img"
+                        src={track.albumArt}
+                        alt={`${track.name} album art`}
+                        width={48}
+                        height={48}
+                        loading="eager"
+                        class="absolute inset-0 w-12 h-12 rounded-sm shadow-md object-cover outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-2 group-hover:outline-offset-[-2px] group-hover:outline-green-500"
+                    />
+                ) : (
+                    <div
+                        id="album-art-placeholder"
+                        class="absolute inset-0 w-12 h-12 rounded-sm bg-gray-700 flex items-center justify-center text-white/50 text-xl shadow-md outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-2 group-hover:outline-offset-[-2px] group-hover:outline-green-500"
+                    >
+                        ?
+                    </div>
+                )}
+            </div>
             <div class="flex flex-col justify-center overflow-hidden">
-                <p class="text-[#DDEEFF] text-sm font-medium truncate group-hover:text-green-400 transition-colors duration-200">
+                <p id="track-name" class="text-[#DDEEFF] text-sm font-medium truncate group-hover:text-green-400 transition-colors duration-200">
                     {track.name}
                 </p>
-                <p class="text-[#99AABB]/90 text-xs font-light truncate">
+                <p id="track-artist" class="text-[#99AABB]/90 text-xs font-light truncate">
                     by {track.artist}
                 </p>
             </div>
         </a>
     ) : (
         (() => {
-            let message = "Couldn't load music activity."; // Default error
+            let message = "Couldn't load music activity.";
             if (statusText === "No Recent Tracks") {
                 message = "No recent tracks found.";
             } else if (statusText && statusText.includes("error")) {
-                 // You could refine error message display here if needed
                  message = "Couldn't load music activity.";
             }
-            return <p class="text-[#99AABB]/70 text-sm italic mt-4">{message}</p>;
+            return <p id="track-error" class="text-[#99AABB]/70 text-sm italic mt-4">{message}</p>;
         })()
     )}
 </div>

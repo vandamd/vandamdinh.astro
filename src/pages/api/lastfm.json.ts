@@ -1,7 +1,10 @@
 import type { APIRoute } from 'astro';
 
-const apiKey = import.meta.env.LASTFM_API_KEY;
-const username = import.meta.env.LASTFM_USERNAME;
+export const prerender = false;
+
+// Access runtime env vars via context.locals.runtime.env with Cloudflare adapter
+// const apiKey = import.meta.env.LASTFM_API_KEY;
+// const username = import.meta.env.PUBLIC_LASTFM_USERNAME || import.meta.env.LASTFM_USERNAME;
 
 interface LastFmTrackData {
     name: string;
@@ -11,23 +14,27 @@ interface LastFmTrackData {
     '@attr'?: { nowplaying?: string };
 }
 
-interface ApiResponse {
-    track: {
-        name: string;
-        artist: string;
-        albumArt: string | null;
-        url: string;
-        nowPlaying: boolean;
-    } | null;
-    statusText: string | null;
-}
+const cacheHeaders = {
+    'Cache-Control': 'no-store, max-age=0, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+    'CDN-Cache-Control': 'no-store',
+    'Content-Type': 'application/json',
+};
 
-export const GET: APIRoute = async ({}) => {
+export const GET: APIRoute = async (context) => {
+    // Get runtime environment variables from the context provided by the adapter
+    const apiKey = context.locals.runtime?.env?.LASTFM_API_KEY;
+    // Check both possible names for username, prioritizing PUBLIC_
+    const username = context.locals.runtime?.env?.LASTFM_USERNAME;
+
     if (!apiKey || !username) {
-        console.error("Last.fm API key or username missing in environment variables.");
+        console.error("Last.fm API key or username missing in server environment variables (checked context.locals.runtime.env).");
+        // Log available keys for debugging (DO NOT DEPLOY THIS LOG IN PRODUCTION if sensitive keys exist)
+        // console.log("Available runtime env keys:", Object.keys(context.locals.runtime?.env || {}));
         return new Response(JSON.stringify({ track: null, statusText: "Server Misconfiguration" }), {
             status: 500,
-            headers: { 'Content-Type': 'application/json' },
+            headers: cacheHeaders,
         });
     }
 
@@ -35,9 +42,22 @@ export const GET: APIRoute = async ({}) => {
 
     try {
         const res = await fetch(endpoint);
+
         if (!res.ok) {
-            throw new Error(`Last.fm API error: ${res.statusText} (Status: ${res.status})`);
+             let errorMsg = `Last.fm API error: ${res.statusText} (Status: ${res.status})`;
+             try {
+                 const errorData = await res.json();
+                 if (errorData && errorData.message) {
+                     errorMsg = `Last.fm API Error: ${errorData.message} (Status: ${res.status})`;
+                 }
+             } catch (parseError) { /* Ignore */ }
+            console.error(errorMsg);
+            return new Response(JSON.stringify({ track: null, statusText: "API Error" }), {
+                status: res.status,
+                headers: cacheHeaders,
+            });
         }
+
         const data = await res.json();
 
         if (data.recenttracks && data.recenttracks.track && data.recenttracks.track.length > 0) {
@@ -56,20 +76,24 @@ export const GET: APIRoute = async ({}) => {
 
             return new Response(JSON.stringify({ track: trackResult, statusText: statusText }), {
                 status: 200,
-                headers: { 'Content-Type': 'application/json' },
+                headers: cacheHeaders,
             });
         } else {
-            // No tracks found or empty response
-            return new Response(JSON.stringify({ track: null, statusText: "No Recent Tracks" }), {
-                status: 200, // Still a successful API call, just no data
-                headers: { 'Content-Type': 'application/json' },
-            });
+             let statusMessage = data.message || "No Recent Tracks";
+             if (data.error) {
+                 statusMessage = `API Error ${data.error}: ${data.message}`;
+             }
+             console.log(`Last.fm response: ${statusMessage}`);
+             return new Response(JSON.stringify({ track: null, statusText: statusMessage }), {
+                 status: 200,
+                 headers: cacheHeaders,
+             });
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error("Failed to fetch Last.fm data:", error);
         return new Response(JSON.stringify({ track: null, statusText: "API Fetch Error" }), {
-            status: 503, // Service Unavailable might be appropriate
-            headers: { 'Content-Type': 'application/json' },
+            status: 503,
+            headers: cacheHeaders,
         });
     }
 };
