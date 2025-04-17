@@ -2,16 +2,13 @@ import type { APIRoute } from 'astro';
 
 export const prerender = false;
 
-// Access runtime env vars via context.locals.runtime.env with Cloudflare adapter
-// const apiKey = import.meta.env.LASTFM_API_KEY;
-// const username = import.meta.env.PUBLIC_LASTFM_USERNAME || import.meta.env.LASTFM_USERNAME;
-
 interface LastFmTrackData {
     name: string;
     artist: { '#text': string };
     image: { size: string; '#text': string }[];
     url: string;
     '@attr'?: { nowplaying?: string };
+    date?: { uts: string; '#text': string };
 }
 
 const cacheHeaders = {
@@ -22,16 +19,39 @@ const cacheHeaders = {
     'Content-Type': 'application/json',
 };
 
+// Helper function to format time difference
+function formatTimeAgo(uts: string): string {
+    const timestamp = parseInt(uts, 10);
+    if (isNaN(timestamp)) {
+        return 'Last Played'; // Fallback if timestamp is invalid
+    }
+
+    const now = Date.now() / 1000; // Current time in seconds
+    const diffSeconds = Math.floor(now - timestamp);
+
+    if (diffSeconds < 0) {
+         // Handle potential clock skew or future timestamps gracefully
+         return 'Just Now';
+     }
+
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffDays > 0) {
+        return `${diffDays}D AGO`;
+    } else if (diffHours > 0) {
+        return `${diffHours}H AGO`;
+    } else {
+        return `${diffMinutes}M AGO`;
+    }
+}
+
 export const GET: APIRoute = async (context) => {
-    // Get runtime environment variables from the context provided by the adapter
     const apiKey = context.locals.runtime?.env?.LASTFM_API_KEY;
-    // Check both possible names for username, prioritizing PUBLIC_
     const username = context.locals.runtime?.env?.LASTFM_USERNAME;
 
     if (!apiKey || !username) {
-        console.error("Last.fm API key or username missing in server environment variables (checked context.locals.runtime.env).");
-        // Log available keys for debugging (DO NOT DEPLOY THIS LOG IN PRODUCTION if sensitive keys exist)
-        // console.log("Available runtime env keys:", Object.keys(context.locals.runtime?.env || {}));
         return new Response(JSON.stringify({ track: null, statusText: "Server Misconfiguration" }), {
             status: 500,
             headers: cacheHeaders,
@@ -72,7 +92,15 @@ export const GET: APIRoute = async (context) => {
                 url: trackData.url,
                 nowPlaying: isNowPlaying,
             };
-            const statusText = isNowPlaying ? 'Now Playing' : 'Last Played';
+
+            let statusText: string;
+            if (isNowPlaying) {
+                statusText = 'Now Playing';
+            } else if (trackData.date?.uts) {
+                statusText = formatTimeAgo(trackData.date.uts);
+            } else {
+                statusText = 'Last Played'; // Fallback if date is missing
+            }
 
             return new Response(JSON.stringify({ track: trackResult, statusText: statusText }), {
                 status: 200,

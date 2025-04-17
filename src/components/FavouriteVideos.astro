@@ -1,8 +1,15 @@
 ---
-import { format, parseISO, formatDistanceToNowStrict } from 'date-fns';
+import { format, parse, parseISO, formatDistanceToNowStrict } from 'date-fns';
 import { Image } from 'astro:assets';
 
-// Function to extract YouTube Video ID from URL
+const videoData: VideoInput[] = [
+    { youtubeUrl: 'https://www.youtube.com/watch?v=yujP3-AxXsI' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=vO8HlVwaZw4' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=-A3IlRATIsI' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=8_xW-SqyJAU' },
+];
+const date = '17/04/2025';
+
 const getYouTubeIdFromUrl = (url: string): string | null => {
     try {
         const parsedUrl = new URL(url);
@@ -21,17 +28,8 @@ interface VideoInput {
     youtubeUrl: string;
 }
 
-const videoData: VideoInput[] = [
-    { youtubeUrl: 'https://www.youtube.com/watch?v=yujP3-AxXsI' },
-    { youtubeUrl: 'https://www.youtube.com/watch?v=vO8HlVwaZw4' },
-    { youtubeUrl: 'https://www.youtube.com/watch?v=-A3IlRATIsI' },
-    { youtubeUrl: 'https://www.youtube.com/watch?v=8_xW-SqyJAU' },
-];
-const date = '17/04/2025'; // Update this date as needed
-
 const apiKey = import.meta.env.YOUTUBE_API_KEY;
 
-// Interfaces for YouTube API response
 interface YouTubeThumbnail {
     url: string;
     width: number;
@@ -188,8 +186,7 @@ if (videoIds.length > 0) {
 <div class="flex flex-col items-center justify-between">
     <div class="w-full flex flex-row items-baseline justify-between">
         <p class="text-[#99AABB] text-md font-light uppercase">Favourite Videos</p>
-        <!-- Optional: Add an updated date if desired -->
-        <!-- <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p> -->
+        <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p>
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
 

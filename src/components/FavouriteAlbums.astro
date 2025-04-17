@@ -28,7 +28,7 @@ const albumData: AlbumInput[] = [
     { spotifyUrl: 'https://open.spotify.com/album/5u8SP8bbxcA7zJoAusBfgc?si=6_pjUGnkRaaOpjTzw4ypsQ' },
     { spotifyUrl: 'https://open.spotify.com/album/6XV76W17coHAKFdeyiGT08?si=3cgWXNPxRqKFQRZLt4bdHQ' },
 ];
-const date = '17/04/2025'; // Update this date as needed
+const date = '17/04/2025';
 
 const clientId = import.meta.env.SPOTIFY_CLIENT_ID;
 const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
@@ -89,17 +89,15 @@ const fetchAlbumDetails = async (albumIds: string[], accessToken: string): Promi
 
         const data = await response.json();
 
-        // Map fetched data to our desired structure
         return data.albums.map((album: SpotifyAlbum | null): FetchedAlbumData => {
             if (!album) {
-                // Handle cases where an album ID might be invalid or not found
                 console.warn(`Album details not found for one of the IDs.`);
                 return {
                     id: 'unknown',
                     title: 'Album Not Found',
                     artist: 'Unknown Artist',
                     coverUrl: null,
-                    spotifyUrl: '#', // Provide a default or placeholder URL
+                    spotifyUrl: '#',
                     releaseYear: null,
                 };
             }
@@ -119,19 +117,17 @@ const fetchAlbumDetails = async (albumIds: string[], accessToken: string): Promi
         });
     } catch (error) {
         console.error('Failed to fetch album details from Spotify:', error);
-        // Return placeholder data for all albums on error
         return albumIds.map(id => ({
             id: id,
             title: 'Error Loading Album',
             artist: 'Error',
             coverUrl: null,
-            spotifyUrl: '#', // Link might be known from input, but play safe
+            spotifyUrl: '#',
             releaseYear: null
         }));
     }
 };
 
-// Main execution
 const albumIds = albumData.map(a => getSpotifyIdFromUrl(a.spotifyUrl)).filter((id): id is string => id !== null);
 let albums: FetchedAlbumData[] = [];
 const accessToken = await getSpotifyAccessToken();
@@ -140,7 +136,6 @@ if (accessToken && albumIds.length > 0) {
     albums = await fetchAlbumDetails(albumIds, accessToken);
 } else if (albumIds.length === 0) {
      console.warn("No valid Spotify Album IDs extracted from URLs.");
-     // Provide placeholder data if no IDs are valid
      albums = albumData.map((_, index) => ({
         id: `placeholder-${index}`,
         title: 'Invalid URL',
@@ -151,27 +146,24 @@ if (accessToken && albumIds.length > 0) {
     }));
 } else {
     console.error("Could not fetch albums due to missing access token.");
-     // Provide placeholder data if token fetch fails
      albums = albumIds.map(id => ({
         id: id,
         title: 'Auth Error',
         artist: 'Error',
         coverUrl: null,
-        spotifyUrl: '#', // Attempt to find original URL? Maybe too complex here.
+        spotifyUrl: '#',
         releaseYear: null
     }));
 }
 
-// Re-order fetched albums to match the original input order
 const orderedAlbums = albumData.map(inputAlbum => {
     const inputId = getSpotifyIdFromUrl(inputAlbum.spotifyUrl);
-    // Find the fetched album, default to a specific error object if not found or if ID was invalid
     return albums.find(fetched => fetched.id === inputId) || {
-        id: inputId || `invalid-url-${Math.random()}`, // Use input ID if available, else generate one
+        id: inputId || `invalid-url-${Math.random()}`,
         title: inputId ? 'Error Loading Album' : 'Invalid URL Provided',
         artist: 'Error',
         coverUrl: null,
-        spotifyUrl: inputAlbum.spotifyUrl, // Keep original URL for the link
+        spotifyUrl: inputAlbum.spotifyUrl,
         releaseYear: null
     };
 });

@@ -9,16 +9,15 @@
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
 
     <div id="lastfm-details-container" class="w-full min-h-[72px]">
-        <!-- Skeleton loader will be rendered here by script -->
     </div>
 </div>
 
 <script>
     const detailsContainer = document.getElementById('lastfm-details-container');
     const statusTextElement = document.getElementById('music-status-text');
-    const REFRESH_INTERVAL = 30000; // 30 seconds
+    const REFRESH_INTERVAL = 30000;
 
-    let intervalId: number | undefined; // Use number for browser setInterval ID
+    let intervalId: number | undefined;
 
     function renderSkeleton() {
         if (!detailsContainer || !statusTextElement) return;
