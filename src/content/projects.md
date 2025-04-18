@@ -17,4 +17,4 @@ date: 16/04/2025
 
 [Mixtape](https://github.com/vandamd/mixtape) - A simple and minimal mixtape generator for Spotify playlists. Built with Flask, FFmpeg, Spotipy, Spotdl.
 
-[Micro-Scale Pumped Hydro System](https://github.com/vandamd/MDM2-Hydro) - Evaluated the suitablility of these systems. Developed a simplified mathematical model.
+[Micro-Scale Pumped Hydro System](https://github.com/vandamd/MDM2-Hydro) - Evaluated the suitablility of these systems. Developed a simplified mathematical model. Built with Python, Bayesian Optimisation, Pandas and Plotly.

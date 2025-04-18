@@ -9,7 +9,7 @@ import { format, parse } from 'date-fns';
         <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(about.frontmatter.date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p>
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
-    <div class="text-[#99AABB] font-serif text-lg w-full prose-p:pt-3">
+    <div class="text-[#99AABB] font-serif text-lg w-full prose-p:pt-3 prose-a:text-white prose-a:hover:text-green-400 prose-a:no-underline prose-a:font-sans prose-a:text-lg">
         <about.Content />
     </div>
 </div>
