@@ -6,6 +6,7 @@ import FavouriteFilms from "../components/FavouriteFilms.astro";
 import MusicActivity from "../components/MusicActivity.astro";
 import Goals from "../components/Goals.astro";
 import FavouriteAlbums from "../components/FavouriteAlbums.astro";
+import FavouriteTracks from "../components/FavouriteTracks.astro";
 import FavouriteVideos from "../components/FavouriteVideos.astro";
 import FavouritePodcasts from "../components/FavouritePodcasts.astro";
 import BlogPosts from "../components/BlogPosts.astro";
@@ -130,6 +131,7 @@ if (!apiKey || !username) {
 				<About />
 				<FavouriteFilms />
 				<FavouriteAlbums />
+                <FavouriteTracks />
 				<FavouriteVideos />
 				<FavouritePodcasts />
 			</div>
@@ -145,7 +147,7 @@ if (!apiKey || !username) {
         <footer class="w-full h-full bg-[#2C3440] flex flex-row items-center justify-center gap-8 py-4 px-[5%] lg:px-[15%]">
             <div class="flex flex-row gap-20">
                 <p class="text-[#99AABB] text-sm font-light select-none">Film posters from <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">TMDB</a></p>
-                <p class="text-[#99AABB] text-sm font-light select-none">Album covers from <a href="https://developer.spotify.com/documentation/web-api" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">Spotify</a></p>
+                <p class="text-[#99AABB] text-sm font-light select-none">Album covers & track data from <a href="https://developer.spotify.com/documentation/web-api" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">Spotify</a></p>
                 <p class="text-[#99AABB] text-sm font-light select-none">Video thumbnails from <a href="https://developers.google.com/youtube/v3" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">YouTube</a></p>
                 <p class="text-[#99AABB] text-sm font-light select-none">Music activity data from <a href="https://www.last.fm/api" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">Last.fm</a></p>
             </div>

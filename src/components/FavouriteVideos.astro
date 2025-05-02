@@ -3,12 +3,12 @@ import { format, parse, parseISO, formatDistanceToNowStrict } from 'date-fns';
 import { Image } from 'astro:assets';
 
 const videoData: VideoInput[] = [
+    { youtubeUrl: 'https://www.youtube.com/watch?v=nnsyGSTKlw0' },
     { youtubeUrl: 'https://www.youtube.com/watch?v=-zjJpFYtx9s' },
     { youtubeUrl: 'https://www.youtube.com/watch?v=CB0ETumpOd4' },
-    { youtubeUrl: 'https://www.youtube.com/watch?v=4KGsgpFiswQ' },
-    { youtubeUrl: 'https://www.youtube.com/watch?v=XYtm4UQ9izI' },
+    { youtubeUrl: 'https://www.youtube.com/watch?v=XHa024bpdYI' },
 ];
-const date = '17/04/2025';
+const date = '02/05/2025';
 
 const getYouTubeIdFromUrl = (url: string): string | null => {
     try {

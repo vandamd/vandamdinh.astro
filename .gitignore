@@ -28,4 +28,4 @@ pnpm-debug.log*
 .cursor
 
 .dev.vars
-# .wrangler
+.wrangler
