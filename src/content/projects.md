@@ -1,9 +1,11 @@
 ---
-title: 'Projects'
-date: 16/04/2025
+title: "Projects"
+date: 29/05/2025
 ---
 
-**Kiwi (Ongoing)** - Vanilla Minecraft server protocol built with Zig.
+**Spotify (Ongoing)** - Spotify client for the Light Phone III. Built with React Native, Expo, Spotify's Web API and Android SDK.
+
+[Passes](https://github.com/vandamd/passes) - App for the Light Phone III to store barcodes. First time developing an Android app. Built with React Native and Expo.
 
 [SlowTube](https://slowtube.vandamdinh.com), [Repo](https://github.com/vandamd/slowtube) - Extended YouTube player for practicing guitar solos by video and ear. Built with TanStack Start and Router.
 
@@ -17,4 +19,4 @@ date: 16/04/2025
 
 [Mixtape](https://github.com/vandamd/mixtape) - A simple and minimal mixtape generator for Spotify playlists. Built with Flask, FFmpeg, Spotipy, Spotdl.
 
-[Micro-Scale Pumped Hydro System](https://github.com/vandamd/MDM2-Hydro) - Evaluated the suitablility of these systems. Developed a simplified mathematical model. Built with Python, Bayesian Optimisation, Pandas and Plotly.
+[Micro-Scale Pumped Hydro System](https://github.com/vandamd/MDM2-Hydro) - Evaluated the suitability of these systems. Developed a simplified mathematical model. Built with Python, Bayesian Optimisation, Pandas and Plotly.
