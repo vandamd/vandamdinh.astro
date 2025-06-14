@@ -5,6 +5,8 @@ date: 29/05/2025
 
 **Spotify (Ongoing)** - Spotify client for the Light Phone III. Built with React Native, Expo, Spotify's Web API and Android SDK.
 
+[Weather](https://github.com/vandamd/weather) - App for the Light Phone III to check the weather. Built with React Native, Expo and Open-meteo.
+
 [Passes](https://github.com/vandamd/passes) - App for the Light Phone III to store barcodes. First time developing an Android app. Built with React Native and Expo.
 
 [SlowTube](https://slowtube.vandamdinh.com), [Repo](https://github.com/vandamd/slowtube) - Extended YouTube player for practicing guitar solos by video and ear. Built with TanStack Start and Router.
