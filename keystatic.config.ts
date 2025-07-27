@@ -13,7 +13,7 @@ export default config({
             format: { contentField: 'content' },
             schema: {
                 title: fields.slug({ name: { label: 'Title' } }),
-                date: fields.text({ label: 'Date' }),
+                date: fields.date({ label: 'Date' }),
                 song: fields.url({
                     label: 'URL',
                     description: 'Spotify URL',
