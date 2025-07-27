@@ -26,7 +26,7 @@ const trackData: TrackInput[] = [
     { spotifyUrl: 'https://open.spotify.com/track/3vbxQpZdIXJ3oALBd8OyQ6?si=ea0e1005da8f40a1' },
     { spotifyUrl: 'https://open.spotify.com/track/5cJZPy9Tad2aT3ZMnN6yvd?si=248de2ced3734bfa' },
 ];
-const date = '02/05/2025';
+const date = '2025-05-02';
 
 const clientId = import.meta.env.SPOTIFY_CLIENT_ID;
 const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
@@ -173,7 +173,7 @@ const orderedTracks = trackData.map(inputTrack => {
 <div class="flex flex-col items-center justify-between">
     <div class="w-full flex flex-row items-baseline justify-between">
         <p class="text-[#99AABB] text-md font-light uppercase select-none">Favourite Tracks</p>
-        <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p>
+        <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(date, 'MMMM d, yyyy')}</p>
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
 

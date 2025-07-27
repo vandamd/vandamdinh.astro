@@ -1,6 +1,6 @@
 ---
 title: 'About'
-date: 18/04/2025
+date: 2025-04-18
 ---
 
 Hey! I'm a 22 year old software engineer based in Bristol, UK. I'm currently studying Engineering Mathematics at Bristol University for my fourth year.

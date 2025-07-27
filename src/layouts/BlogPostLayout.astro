@@ -71,7 +71,7 @@ import { format, parse } from 'date-fns';
         <div class="w-[70%] flex flex-col gap-6 z-1000">
             <div class="flex flex-row items-baseline gap-4 pb-0">
                 <h1 class="text-white text-4xl font-bold font-serif text-shadow-lg/40">{frontmatter.title}</h1>
-                <p class="text-[#DDEEFF] text-xl font-extralight">{format(parse(frontmatter.date, 'dd/MM/yy', new Date()), 'MMMM d, yyyy')}</p>
+                <p class="text-[#DDEEFF] text-xl font-extralight">{format(frontmatter.date, 'MMMM d, yyyy')}</p>
             </div>
             <div class="text-[#99AABB] prose text-lg prose-a:text-[#DDEEFF] prose-a:underline prose-a:underline-offset-4 prose-a:decoration-[#99AABB]/50 prose-a:decoration-1 prose-a:hover:text-[#41BCF4] prose-h1:text-white prose-h2:text-white prose-h3:text-white prose-h4:text-white prose-h5:text-white prose-h6:text-white prose-h1:font-serif prose-h2:font-serif prose-h3:font-serif prose-h4:font-serif prose-h5:font-serif prose-h6:font-serif prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base prose-em:font-serif prose-hr:border-t-1 prose-hr:border-[#99AABB]/50 prose-ol:gap-2">
                 <slot />

@@ -26,6 +26,12 @@ export default config({
                 content: fields.markdoc({
                     label: 'Content',
                     extension: 'md',
+                    options: {
+                        image: {
+                            directory: 'src/assets',
+                            publicPath: '../../assets/',
+                        }
+                    }
                 }),
             },
         }),

@@ -13,7 +13,7 @@ const filmData: FilmInput[] = [
     { id: 451915, letterboxdUrl: 'https://letterboxd.com/film/beautiful-boy-2018/' },
     { id: 12477, letterboxdUrl: 'https://letterboxd.com/film/grave-of-the-fireflies/' },
 ];
-const date = '17/04/2025';
+const date = '2025-04-17';
 
 const apiKey = import.meta.env.TMDB_API_KEY;
 const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
@@ -57,7 +57,7 @@ const films = await Promise.all(filmData.map(fetchFilmDetails));
 <div class="flex flex-col items-center justify-between">
     <div class="w-full flex flex-row items-baseline justify-between">
         <p class="text-[#99AABB] text-md font-light uppercase select-none">Favourite Films</p>
-        <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(parse(date, 'dd/MM/yyyy', new Date()), 'MMMM d, yyyy')}</p>
+        <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(date, 'MMMM d, yyyy')}</p>
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
 

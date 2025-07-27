@@ -3,8 +3,8 @@ import { getCollection } from 'astro:content';
 import { format, parse } from 'date-fns';
 
 const posts = (await getCollection('blog')).sort((a, b) => {
-  const dateA = parse(a.data.date, 'dd/MM/yy', new Date());
-  const dateB = parse(b.data.date, 'dd/MM/yy', new Date());
+  const dateA = parse(a.data.date, 'yyyy-MM-dd', new Date());
+  const dateB = parse(b.data.date, 'yyyy-MM-dd', new Date());
   return dateB.getTime() - dateA.getTime();
 });
 ---
@@ -15,7 +15,7 @@ const posts = (await getCollection('blog')).sort((a, b) => {
     <ul class="w-full mt-2">
         {posts.map((post) => (
             <li class="text-white hover:text-green-400 text-sm">
-                <a href={`/blog/${post.slug}`} >{post.data.title} <span class="text-[#99AABB] text-xs font-light">{format(parse(post.data.date, 'dd/MM/yy', new Date()), 'MMMM d, yyyy')}</span></a>
+                <a href={`/blog/${post.slug}`} >{post.data.title} <span class="text-[#99AABB] text-xs font-light">{format(post.data.date, 'MMMM d, yyyy')}</span></a>
             </li>
         ))}
     </ul>
