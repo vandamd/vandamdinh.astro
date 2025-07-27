@@ -1,3 +1,11 @@
 name = "vandamdinh-astro"
-pages_build_output_dir = "./dist"
-compatibility_date = "2025-04-17"
+main = "./dist/_worker.js/index.js"
+compatibility_date = "2025-07-27"
+compatibility_flags = [ "nodejs_compat" ]
+
+[assets]
+binding = "ASSETS"
+directory = "./dist"
+
+[observability]
+enabled = true
