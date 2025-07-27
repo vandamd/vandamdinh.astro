@@ -2,7 +2,7 @@
 title: "Life"
 date: 04/08/24
 song: "https://open.spotify.com/track/6i5aXpYzgLYuBmT94udGBY?si=e674d6d7e3fa4bcd4"
-img: "../../images/life.jpg"
+img: "../../assets/life.jpg"
 ---
 A couple months ago I was watching a [James Scholz](https://www.youtube.com/@jvscholz/videos) video, he mentioned something about writing his own autobiography as a method of journalling - I thought that was pretty cool.[^1] This idea has been at the very back of my mind since then.
 

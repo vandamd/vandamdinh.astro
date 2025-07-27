@@ -14,7 +14,7 @@ import Projects from "../components/Projects.astro";
 import DarkBackdrop from "../components/DarkBackdrop.astro";
 import { Image } from 'astro:assets';
 
-import myImage from "../images/main.jpg";
+import myImage from "../assets/main.jpg";
 
 interface LastFmTrackData {
     name: string;
@@ -106,7 +106,7 @@ if (!apiKey || !username) {
 
         <header class="absolute top-0 left-0 w-full h-[79px] bg-transparent px-[5%] lg:px-[15%] flex items-center z-10">
             <div class="w-full flex flex-row items-center justify-between">
-                    <a href="/"><img src="/logo.svg" alt="Vandam Dinh" class="w-auto h-7 shadow-sm" /></a>
+                    <a href="/"><img src="/logo.svg" alt="Vandam Dinh" class="w-auto h-7" /></a>
                     <div class="flex flex-row items-center gap-4">
                         <a href="https://github.com/vandamd" target="_blank" rel="noopener noreferrer" class="text-[#D7E0E8] hover:text-white uppercase font-semibold">GitHub</a>
 

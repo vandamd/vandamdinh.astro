@@ -2,7 +2,7 @@
 title: "Stepping back"
 date: 01/01/23
 song: "https://open.spotify.com/track/1zNXF2svmdlNxfS5XeNUgr?si=106101cb988e4a24"
-img: "../../images/stepping-back.jpg"
+img: "../../assets/stepping-back.jpg"
 ---
 
 At the time of writing this, I'm 19 years old. I grew up with technology for most of my life—we had a huge beige family computer in our living room, and I'd watch Digimon with my brother. What a time!
