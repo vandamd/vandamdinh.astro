@@ -14,9 +14,19 @@ export default config({
             schema: {
                 title: fields.slug({ name: { label: 'Title' } }),
                 date: fields.text({ label: 'Date' }),
-                song: fields.text({ label: 'Song' }),
-                img: fields.text({ label: 'Background Image' }),
-                content: fields.markdoc({ label: 'Content' }),
+                song: fields.url({
+                    label: 'URL',
+                    description: 'Spotify URL',
+                }),
+                img: fields.image({
+                    label: 'Background Image',
+                    directory: 'src/assets',
+                    publicPath: '../../assets/',
+                }),
+                content: fields.markdoc({
+                    label: 'Content',
+                    extension: 'md',
+                }),
             },
         }),
     },
