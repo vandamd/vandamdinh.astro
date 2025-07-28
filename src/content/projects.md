@@ -1,6 +1,6 @@
 ---
 title: "Projects"
-date: 29/05/2025
+date: 2025-05-29
 ---
 
 **Spotify (Ongoing)** - Spotify client for the Light Phone III. Built with React Native, Expo, Spotify's Web API and Android SDK.

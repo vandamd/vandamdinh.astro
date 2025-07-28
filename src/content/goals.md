@@ -1,6 +1,6 @@
 ---
 title: "Goals"
-date: 29/05/2025
+date: 2025-05-29
 ---
 
 1. Be bored
