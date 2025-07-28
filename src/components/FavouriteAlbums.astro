@@ -1,6 +1,7 @@
 ---
 import { format, parse } from 'date-fns';
 import { Image } from 'astro:assets';
+import data from '../content/favourite/albums.yaml';
 
 // Function to extract Spotify ID from URL
 const getSpotifyIdFromUrl = (url: string): string | null => {
@@ -22,13 +23,8 @@ interface AlbumInput {
     spotifyUrl: string;
 }
 
-const albumData: AlbumInput[] = [
-    { spotifyUrl: 'https://open.spotify.com/album/4Dgxy95K9BWkDUvQPTaYBb?si=mj77_xXJS4WD_tUM9TiiiQ' },
-    { spotifyUrl: 'https://open.spotify.com/album/5On8s1irA6JETiDvt2VUy7?si=zRa3GGY6T42PGE8ysSxykgQ' },
-    { spotifyUrl: 'https://open.spotify.com/album/4HTy9WFTYooRjE9giTmzAF?si=2752212911984b64' },
-    { spotifyUrl: 'https://open.spotify.com/album/5o9aTepLhqQL2gXuKPhd8g?si=d26ba81516d44760' },
-];
-const date = '2025-04-17';
+const albumData: AlbumInput[] = data.albums;
+const date = data.date;
 
 const clientId = import.meta.env.SPOTIFY_CLIENT_ID;
 const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;

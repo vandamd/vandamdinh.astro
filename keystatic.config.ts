@@ -110,7 +110,7 @@ export default config({
         }),
         favouriteVideos: singleton({
             label: 'Favourite Videos',
-            path: 'src/content/favourite/Videos',
+            path: 'src/content/favourite/videos',
             schema: {
                 date: fields.date({ label: 'Date' }),
                 Videos: fields.array(
@@ -126,7 +126,7 @@ export default config({
         }),
         favouritePodcasts: singleton({
             label: 'Favourite Podcasts',
-            path: 'src/content/favourite/Podcasts',
+            path: 'src/content/favourite/podcasts',
             schema: {
                 date: fields.date({ label: 'Date' }),
                 Podcasts: fields.array(

@@ -1,19 +1,39 @@
 ---
 import { format, parse } from 'date-fns';
 import { Image } from 'astro:assets';
+import data from '../content/favourite/films.yaml';
+
+// Function to extract TMDB ID from URL
+const getTmdbIdFromUrl = (url: string): number | null => {
+    try {
+        const parsedUrl = new URL(url);
+        const pathParts = parsedUrl.pathname.split('/');
+        // Find the part that contains 'movie' and get the next part which should be the ID
+        const movieIndex = pathParts.findIndex(part => part === 'movie');
+        if (movieIndex !== -1 && pathParts.length > movieIndex + 1) {
+            const idPart = pathParts[movieIndex + 1];
+            // Extract just the numeric ID from strings like "976893-perfect-days"
+            const idMatch = idPart.match(/^(\d+)/);
+            return idMatch ? parseInt(idMatch[1], 10) : null;
+        }
+    } catch (e) {
+        console.error("Invalid URL:", url, e);
+    }
+    return null;
+};
 
 interface FilmInput {
-    id: number;
     letterboxdUrl: string;
+    tmdbdUrl: string;
 }
 
-const filmData: FilmInput[] = [
-    { id: 976893, letterboxdUrl: 'https://letterboxd.com/film/perfect-days-2023/' },
-    { id: 964960, letterboxdUrl: 'https://letterboxd.com/film/the-taste-of-things/' },
-    { id: 451915, letterboxdUrl: 'https://letterboxd.com/film/beautiful-boy-2018/' },
-    { id: 12477, letterboxdUrl: 'https://letterboxd.com/film/grave-of-the-fireflies/' },
-];
-const date = '2025-04-17';
+const filmData: FilmInput[] = data.films;
+const date = data.date;
+
+const filmDataWithIds = filmData.map(film => ({
+    ...film,
+    id: getTmdbIdFromUrl(film.tmdbdUrl) || 0
+}));
 
 const apiKey = import.meta.env.TMDB_API_KEY;
 const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
@@ -50,7 +70,7 @@ const fetchFilmDetails = async (film: FilmInput) => {
     }
 };
 
-const films = await Promise.all(filmData.map(fetchFilmDetails));
+const films = await Promise.all(filmDataWithIds.map(fetchFilmDetails));
 
 ---
 

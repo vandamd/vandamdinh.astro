@@ -1,6 +1,7 @@
 ---
 import { format, parse } from 'date-fns';
 import { Image } from 'astro:assets';
+import data from '../content/favourite/tracks.yaml';
 
 const getSpotifyTrackIdFromUrl = (url: string): string | null => {
     try {
@@ -20,13 +21,8 @@ interface TrackInput {
     spotifyUrl: string;
 }
 
-const trackData: TrackInput[] = [
-    { spotifyUrl: 'https://open.spotify.com/track/74O2ijHJxPd6FJMgL6A4aq?si=839d099139fe4cf4' },
-    { spotifyUrl: 'https://open.spotify.com/track/46BHP7nFOrGQPLW8mCxzZr?si=21eefae688204231' },
-    { spotifyUrl: 'https://open.spotify.com/track/3vbxQpZdIXJ3oALBd8OyQ6?si=ea0e1005da8f40a1' },
-    { spotifyUrl: 'https://open.spotify.com/track/5cJZPy9Tad2aT3ZMnN6yvd?si=248de2ced3734bfa' },
-];
-const date = '2025-05-02';
+const trackData: TrackInput[] = data.tracks;
+const date = data.date;
 
 const clientId = import.meta.env.SPOTIFY_CLIENT_ID;
 const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
