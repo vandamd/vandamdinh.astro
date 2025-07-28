@@ -113,7 +113,7 @@ export default config({
             path: 'src/content/favourite/videos',
             schema: {
                 date: fields.date({ label: 'Date' }),
-                Videos: fields.array(
+                videos: fields.array(
                     fields.object({
                         youtubeUrl: fields.url({ label: 'YouTube URL' }),
                     }),
@@ -129,7 +129,7 @@ export default config({
             path: 'src/content/favourite/podcasts',
             schema: {
                 date: fields.date({ label: 'Date' }),
-                Podcasts: fields.array(
+                podcasts: fields.array(
                     fields.object({
                         youtubeUrl: fields.url({ label: 'YouTube URL' }),
                     }),
