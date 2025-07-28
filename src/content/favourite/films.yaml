@@ -1,0 +1,9 @@
+films:
+  - letterboxdUrl: https://letterboxd.com/film/perfect-days-2023/
+    tmdbdUrl: https://www.themoviedb.org/movie/976893-perfect-days
+  - letterboxdUrl: https://letterboxd.com/film/the-taste-of-things/
+    tmdbdUrl: https://www.themoviedb.org/movie/964960-la-passion-de-dodin-bouffant
+  - letterboxdUrl: https://letterboxd.com/film/beautiful-boy-2018/
+    tmdbdUrl: https://www.themoviedb.org/movie/451915-beautiful-boy
+  - letterboxdUrl: https://letterboxd.com/film/grave-of-the-fireflies/
+    tmdbdUrl: https://www.themoviedb.org/movie/12477
