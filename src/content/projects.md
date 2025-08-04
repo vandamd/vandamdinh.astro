@@ -1,9 +1,10 @@
 ---
-title: "Projects"
+title: Projects
 date: 2025-05-29
 ---
-
 **Spotify (Ongoing)** - Spotify client for the Light Phone III. Built with React Native, Expo, Spotify's Web API and Android SDK.
+
+[Luma](https://github.com/vandamd/Luma) - Minimal launcher for the Light Phone III. Fork of Olauncher. Built with Kotlin.
 
 [Weather](https://github.com/vandamd/weather) - App for the Light Phone III to check the weather. Built with React Native, Expo and Open-meteo.
 
