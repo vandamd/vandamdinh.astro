@@ -1,15 +1,21 @@
 ---
-import * as about from '../content/about.md';
-import { format, parse } from 'date-fns';
+import * as about from "../content/about.md";
+import { format } from "date-fns";
 ---
 
 <div class="flex flex-col items-center justify-between">
-    <div class="w-full flex flex-row items-baseline justify-between">
-        <p class="text-[#99AABB] text-md font-light uppercase select-none">{about.frontmatter.title}</p>
-        <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(about.frontmatter.date, 'MMMM d, yyyy')}</p>
+    <div class="flex w-full flex-row items-baseline justify-between">
+        <p class="text-md font-light text-[#99AABB] uppercase select-none">
+            {about.frontmatter.title}
+        </p>
+        <p class="text-xs font-light text-[#99AABB]/80 uppercase">
+            Updated {format(about.frontmatter.date, "MMMM d, yyyy")}
+        </p>
     </div>
-    <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
-    <div class="text-[#99AABB] font-serif text-lg w-full prose-p:pt-3 prose-a:text-white prose-a:hover:text-green-400 prose-a:no-underline prose-a:font-sans prose-a:text-lg">
+    <div class="mt-1 h-[1px] w-full bg-[#99AABB]/40"></div>
+    <div
+        class="prose-p:pt-3 prose-a:text-white prose-a:hover:text-green-400 prose-a:no-underline prose-a:font-sans prose-a:text-lg w-full font-serif text-lg text-[#99AABB]"
+    >
         <about.Content />
     </div>
 </div>

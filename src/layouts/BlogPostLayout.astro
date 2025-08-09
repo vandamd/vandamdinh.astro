@@ -1,91 +1,140 @@
 ---
 import "../styles/global.css";
-const {frontmatter} = Astro.props;
-import DarkBackdrop from '../components/DarkBackdrop.astro';
+const { frontmatter } = Astro.props;
+import DarkBackdrop from "../components/DarkBackdrop.astro";
 import { Image } from "astro:assets";
-import SongImage from '../components/SongImage.astro';
-import { format, parse } from 'date-fns';
-
+import SongImage from "../components/SongImage.astro";
+import { format } from "date-fns";
 ---
+
 <html>
-  <head>
-      <title>Vandam Dinh - {frontmatter.title}</title>
-      <meta name="description" content="Vandam Dinh's personal website">
-      <meta name="application-name" content="Vandam Dinh">
-      <meta name="apple-mobile-web-app-title" content="Vandam Dinh">
-      <meta name="apple-mobile-web-app-status-bar-style" content="default">
-      <meta name="og:title" content="Vandam Dinh">
-      <meta name="og:description" content="Vandam Dinh's personal website">
-      <meta name="og:image" content="/og.png">
-      <meta name="og:image:width" content="2400">
-      <meta name="og:image:height" content="1260">
-      <meta name="og:url" content="https://vandamdinh.com">
-      <meta name="og:site_name" content="Vandam Dinh">
-      <meta name="og:type" content="website">
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:title" content="Vandam Dinh">
-      <meta name="twitter:description" content="Vandam Dinh's personal website">
-      <meta name="twitter:image" content="/og.png">
-      <meta name="twitter:image:width" content="2400">
-      <meta name="twitter:image:height" content="1260">
-      <link rel="icon" type="image/jpg" href="/me.jpg" />
-      <meta charset="utf-8" />
-  </head>
+    <head>
+        <title>Vandam Dinh - {frontmatter.title}</title>
+        <meta name="description" content="Vandam Dinh's personal website" />
+        <meta name="application-name" content="Vandam Dinh" />
+        <meta name="apple-mobile-web-app-title" content="Vandam Dinh" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="og:title" content="Vandam Dinh" />
+        <meta name="og:description" content="Vandam Dinh's personal website" />
+        <meta name="og:image" content="/og.png" />
+        <meta name="og:image:width" content="2400" />
+        <meta name="og:image:height" content="1260" />
+        <meta name="og:url" content="https://vandamdinh.com" />
+        <meta name="og:site_name" content="Vandam Dinh" />
+        <meta name="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Vandam Dinh" />
+        <meta
+            name="twitter:description"
+            content="Vandam Dinh's personal website"
+        />
+        <meta name="twitter:image" content="/og.png" />
+        <meta name="twitter:image:width" content="2400" />
+        <meta name="twitter:image:height" content="1260" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/jpg" href="/me.jpg" />
+        <meta charset="utf-8" />
+    </head>
 
-  <body class="bg-[#15181D]">
-    <DarkBackdrop />
+    <body class="bg-[#15181D]">
+        <DarkBackdrop />
 
-    <header class="absolute top-0 left-0 w-full h-[79px] bg-transparent px-[5%] lg:px-[15%] flex items-center z-10">
-        <div class="w-full flex flex-row items-center justify-between">
-                <a href="/"><img src="/logo.svg" alt="Vandam Dinh" class="w-auto h-7 shadow-sm" /></a>
-                <div class="flex flex-row items-center gap-4">
-                    <a href="https://github.com/vandamd" target="_blank" rel="noopener noreferrer" class="text-[#D7E0E8] hover:text-white uppercase font-semibold">GitHub</a>
+        <header
+            class="absolute top-0 left-0 z-10 flex h-[79px] w-full items-center bg-transparent px-[5%] lg:px-[15%]"
+        >
+            <div
+                class="flex w-full flex-col items-center justify-between gap-4 pt-10 lg:flex-row lg:pt-0"
+            >
+                <a href="/"
+                    ><img
+                        src="/logo.svg"
+                        alt="Vandam Dinh"
+                        class="h-7 w-auto"
+                    /></a
+                >
+                <div class="flex flex-row items-center gap-10 lg:gap-4">
+                    <a
+                        href="https://github.com/vandamd"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="font-semibold text-[#D7E0E8] uppercase hover:text-white"
+                        >GitHub</a
+                    >
 
                     <a href="mailto:hi@vandamdinh.com">
-                        <button class="bg-[#06AC1D] hover:bg-[#009D1B] cursor-pointer px-2 py-[1.2px] border-t border-[#68CB6A]/70 rounded-sm text-white uppercase font-semibold flex flex-row items-center gap-1 pr-3 ml-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        <button
+                            class="ml-2 flex cursor-pointer flex-row items-center gap-1 rounded-sm border-t border-[#68CB6A]/70 bg-[#06AC1D] px-2 py-[1.2px] pr-3 font-semibold text-white uppercase hover:bg-[#009D1B]"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                class="lucide lucide-plus-icon lucide-plus"
+                                ><path d="M5 12h14"></path><path d="M12 5v14"
+                                ></path></svg
+                            >
                             Mail
                         </button>
                     </a>
                 </div>
-        </div>
-    </header>
+            </div>
+        </header>
 
-    {frontmatter.img ? (
-        <Image src={frontmatter.img} alt={frontmatter.title + " Background"} class="fade-in-delayed absolute top-0 left-0 w-full h-[800px] object-cover mask-intersect mask-b-to-70% mask-t-from-80% mask-x-from-73% mask-x-to-93%" />
-    ) : (
-        <div class="absolute top-0 left-0 w-full h-[800px] bg-gray-800 flex items-center justify-center text-white">
-            Image not found for: {frontmatter.img}
-        </div>
-    )}
-
-    <div class="fade-in-delayed-2 pt-130 w-full h-full flex flex-row items-start justify-center pb-120 px-[5%] lg:px-[15%] gap-12">
-        <div class="w-[250px] flex flex-col gap-8">
-            {frontmatter.song && (
-                <div>
-                    <SongImage songUrl={frontmatter.song} className="" />
+        {
+            frontmatter.img ? (
+                <Image
+                    src={frontmatter.img}
+                    alt={frontmatter.title + " Background"}
+                    class="fade-in-delayed absolute top-0 left-0 h-[800px] w-full mask-t-from-80% mask-x-from-73% mask-x-to-93% mask-b-to-70% mask-intersect object-cover"
+                />
+            ) : (
+                <div class="absolute top-0 left-0 flex h-[800px] w-full items-center justify-center bg-gray-800 text-white">
+                    Image not found for: {frontmatter.img}
                 </div>
-            )}
-        </div>
+            )
+        }
 
-        <div class="w-[70%] flex flex-col gap-6 z-1000">
-            <div class="flex flex-row items-baseline gap-4 pb-0">
-                <h1 class="text-white text-4xl font-bold font-serif text-shadow-lg/40">{frontmatter.title}</h1>
-                <p class="text-[#DDEEFF] text-xl font-extralight">{format(frontmatter.date, 'MMMM d, yyyy')}</p>
+        <div
+            class="fade-in-delayed-2 flex h-full w-full flex-col items-start justify-center gap-8 px-[5%] pt-130 pb-120 lg:flex-row lg:gap-12 lg:px-[15%]"
+        >
+            <div
+                class="flex w-full flex-col items-center gap-8 lg:w-[250px] lg:items-start"
+            >
+                {
+                    frontmatter.song && (
+                        <div>
+                            <SongImage
+                                songUrl={frontmatter.song}
+                                className=""
+                            />
+                        </div>
+                    )
+                }
             </div>
-            <div class="text-[#99AABB] prose text-lg prose-a:text-[#DDEEFF] prose-a:underline prose-a:underline-offset-4 prose-a:decoration-[#99AABB]/50 prose-a:decoration-1 prose-a:hover:text-[#41BCF4] prose-h1:text-white prose-h2:text-white prose-h3:text-white prose-h4:text-white prose-h5:text-white prose-h6:text-white prose-h1:font-serif prose-h2:font-serif prose-h3:font-serif prose-h4:font-serif prose-h5:font-serif prose-h6:font-serif prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base prose-em:font-serif prose-hr:border-t-1 prose-hr:border-[#99AABB]/50 prose-ol:gap-2">
-                <slot />
-            </div>
-        </div>
-    </div>
 
-    <footer class="w-full h-full bg-[#2C3440] flex flex-row items-center justify-center gap-8 py-4 px-[5%] lg:px-[15%]">
-        <div class="flex flex-row gap-20">
-            <p class="text-[#99AABB] text-sm font-light select-none">Film posters from <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">TMDB</a></p>
-            <p class="text-[#99AABB] text-sm font-light select-none">Album covers from <a href="https://developer.spotify.com/documentation/web-api" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">Spotify</a></p>
-            <p class="text-[#99AABB] text-sm font-light select-none">Video thumbnails from <a href="https://developers.google.com/youtube/v3" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">YouTube</a></p>
-            <p class="text-[#99AABB] text-sm font-light select-none">Music activity data from <a href="https://www.last.fm/api" target="_blank" rel="noopener noreferrer" class="text-[#99AABB] text-sm font-light select-none underline decoration-[#99AABB]/40 decoration-1 underline-offset-3 hover:text-white">Last.fm</a></p>
+            <div
+                class="z-1000 flex w-full flex-col gap-6 overflow-x-hidden lg:w-[70%]"
+            >
+                <div class="flex flex-row items-baseline gap-4 pb-0">
+                    <h1
+                        class="font-serif text-4xl font-bold text-white text-shadow-lg/40"
+                    >
+                        {frontmatter.title}
+                    </h1>
+                    <p class="text-xl font-extralight text-[#DDEEFF]">
+                        {format(frontmatter.date, "MMMM d, yyyy")}
+                    </p>
+                </div>
+                <div
+                    class="prose prose-a:text-[#DDEEFF] prose-a:underline prose-a:underline-offset-4 prose-a:decoration-[#99AABB]/50 prose-a:decoration-1 prose-a:hover:text-[#41BCF4] prose-h1:text-white prose-h2:text-white prose-h3:text-white prose-h4:text-white prose-h5:text-white prose-h6:text-white prose-h1:font-serif prose-h2:font-serif prose-h3:font-serif prose-h4:font-serif prose-h5:font-serif prose-h6:font-serif prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base prose-em:font-serif prose-hr:border-t-1 prose-hr:border-[#99AABB]/50 prose-ol:gap-2 text-lg text-[#99AABB]"
+                >
+                    <slot />
+                </div>
+            </div>
         </div>
-    </footer>
-  </body>
+    </body>
 </html>

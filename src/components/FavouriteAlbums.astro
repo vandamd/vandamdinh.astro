@@ -172,7 +172,7 @@ const orderedAlbums = albumData.map(inputAlbum => {
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
 
-    <div class="w-full grid grid-cols-4 gap-4 mt-4">
+    <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {orderedAlbums.map(album => (
             <a href={album.spotifyUrl} target="_blank" rel="noopener noreferrer" class="block group relative" title={`Listen to ${album.title} by ${album.artist} on Spotify`}>
                 <div
@@ -195,7 +195,7 @@ const orderedAlbums = albumData.map(inputAlbum => {
                             alt={`${album.title} by ${album.artist}`}
                             width={300}
                             height={300}
-                            class="rounded-sm shadow-lg aspect-square object-cover outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500"
+                            class="w-full h-auto rounded-sm shadow-lg aspect-square object-cover outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500"
                         />
                     ) : (
                         <div class="w-full aspect-square bg-gray-700 rounded-sm flex items-center justify-center outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500">

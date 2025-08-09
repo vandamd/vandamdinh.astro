@@ -186,7 +186,7 @@ if (videoIds.length > 0) {
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
 
-    <div class="w-full grid grid-cols-4 gap-4 mt-4">
+    <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {videos.map(video => (
             <a href={video.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block group relative" title={`Watch ${video.title} by ${video.channelTitle} on YouTube`}>
                 <div
@@ -214,7 +214,7 @@ if (videoIds.length > 0) {
                             alt={`Thumbnail for ${video.title}`}
                             width={320}
                             height={180}
-                            class="rounded-sm shadow-lg aspect-video object-cover outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500"
+                            class="w-full h-auto rounded-sm shadow-lg aspect-video object-cover outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500"
                         />
                     ) : (
                         <div class="w-full aspect-video bg-gray-700 rounded-sm flex items-center justify-center outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500">

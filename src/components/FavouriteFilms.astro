@@ -81,7 +81,7 @@ const films = await Promise.all(filmDataWithIds.map(fetchFilmDetails));
     </div>
     <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
 
-    <div class="w-full grid grid-cols-4 gap-4 mt-4">
+    <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
         {films.map(film => (
             <a href={film.letterboxdUrl} target="_blank" rel="noopener noreferrer" class="block group relative" title={`View ${film.title} on Letterboxd`}>
                 <div
@@ -105,7 +105,7 @@ const films = await Promise.all(filmDataWithIds.map(fetchFilmDetails));
                             width={500}
                             height={750}
                             loading="eager"
-                            class="rounded-sm shadow-lg outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500 aspect-[2/3] object-cover"
+                            class="w-full h-auto rounded-sm shadow-lg outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500 aspect-[2/3] object-cover"
                         />
                     ) : (
                         <div class="w-full aspect-[2/3] bg-gray-700 rounded-sm flex items-center justify-center outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500">
