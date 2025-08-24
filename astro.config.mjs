@@ -34,6 +34,10 @@ export default defineConfig({
         ]
     },
 
+    redirects: {
+        "/resume": "/vandam-resume.pdf",
+    },
+
     adapter: cloudflare(),
     integrations: [react(), markdoc(), keystatic()],
 });
