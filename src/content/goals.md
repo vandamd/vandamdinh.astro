@@ -3,6 +3,6 @@ title: "Goals"
 date: 2025-05-29
 ---
 
-1. Be bored
-2. Hiking
-3. Bouldering
+1. Complete my degree
+2. Send hard boulders
+3. Sleep well

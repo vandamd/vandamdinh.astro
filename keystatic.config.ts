@@ -76,6 +76,24 @@ export default config({
                 ),
             }
         }),
+        favouriteBooks: singleton({
+            label: 'Favourite Books',
+            path: 'src/content/favourite/books',
+            schema: {
+                date: fields.date({ label: 'Date' }),
+                books: fields.array(
+                    fields.object({
+                        title: fields.text({ label: 'Book Title' }),
+                        author: fields.text({ label: 'Author Name' }),
+                        note: fields.text({ label: 'Note (optional)', multiline: true }),
+                    }),
+                    {
+                        label: 'Favourite Books',
+                        itemLabel: props => props.fields.title.value ?? 'Book'
+                    }
+                ),
+            }
+        }),
         favouriteAlbums: singleton({
             label: 'Favourite Albums',
             path: 'src/content/favourite/albums',
@@ -104,6 +122,38 @@ export default config({
                     {
                         label: 'Favourite Tracks',
                         itemLabel: props => props.fields.spotifyUrl.value ?? 'Tracks'
+                    }
+                ),
+            }
+        }),
+        favouritePerformances: singleton({
+            label: 'Favourite Performances',
+            path: 'src/content/favourite/performances',
+            schema: {
+                date: fields.date({ label: 'Date' }),
+                performances: fields.array(
+                    fields.object({
+                        youtubeUrl: fields.url({ label: 'YouTube URL' }),
+                    }),
+                    {
+                        label: 'Favourite Performances',
+                        itemLabel: props => props.fields.youtubeUrl.value ?? 'Performance'
+                    }
+                ),
+            }
+        }),
+        favouriteSets: singleton({
+            label: 'Favourite Sets',
+            path: 'src/content/favourite/sets',
+            schema: {
+                date: fields.date({ label: 'Date' }),
+                sets: fields.array(
+                    fields.object({
+                        youtubeUrl: fields.url({ label: 'YouTube URL' }),
+                    }),
+                    {
+                        label: 'Favourite Sets',
+                        itemLabel: props => props.fields.youtubeUrl.value ?? 'Set'
                     }
                 ),
             }

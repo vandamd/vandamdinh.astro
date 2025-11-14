@@ -18,7 +18,7 @@ export default defineConfig({
     },
 
     image: {
-        domains: ["i.scdn.co", "image.tmdb.org", "i.ytimg.com"],
+        domains: ["i.scdn.co", "image.tmdb.org", "i.ytimg.com", "m.media-amazon.com"],
     },
 
     markdown: {

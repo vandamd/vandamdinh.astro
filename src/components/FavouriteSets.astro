@@ -1,0 +1,228 @@
+---
+import { format, parse, parseISO, formatDistanceToNowStrict } from 'date-fns';
+import { Image } from 'astro:assets';
+import data from '../content/favourite/sets.yaml';
+
+const setData: SetInput[] = data.sets;
+const date = data.date;
+
+const getYouTubeIdFromUrl = (url: string): string | null => {
+    try {
+        const parsedUrl = new URL(url);
+        if (parsedUrl.hostname === 'www.youtube.com' || parsedUrl.hostname === 'youtube.com') {
+            return parsedUrl.searchParams.get('v');
+        } else if (parsedUrl.hostname === 'youtu.be') {
+            return parsedUrl.pathname.substring(1);
+        }
+    } catch (e) {
+        console.error("Invalid URL:", url, e);
+    }
+    return null;
+};
+
+interface SetInput {
+    youtubeUrl: string;
+}
+
+const apiKey = import.meta.env.YOUTUBE_API_KEY;
+
+interface YouTubeThumbnail {
+    url: string;
+    width: number;
+    height: number;
+}
+
+interface YouTubeThumbnails {
+    default?: YouTubeThumbnail;
+    medium?: YouTubeThumbnail;
+    high?: YouTubeThumbnail;
+    standard?: YouTubeThumbnail;
+    maxres?: YouTubeThumbnail;
+}
+
+interface YouTubeSnippet {
+    publishedAt: string;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: YouTubeThumbnails;
+    channelTitle: string;
+    tags?: string[];
+    categoryId: string;
+    liveBroadcastContent: string;
+    localized?: { title: string; description: string };
+    defaultAudioLanguage?: string;
+}
+
+interface YouTubeVideoItem {
+    kind: string;
+    etag: string;
+    id: string;
+    snippet: YouTubeSnippet;
+}
+
+interface YouTubeApiResponse {
+    kind: string;
+    etag: string;
+    items: YouTubeVideoItem[];
+    pageInfo: {
+        totalResults: number;
+        resultsPerPage: number;
+    };
+}
+
+// Interface for our processed data
+interface FetchedSetData {
+    id: string;
+    title: string;
+    channelTitle: string;
+    thumbnailUrl: string | null;
+    youtubeUrl: string;
+    publishedDate: Date | null;
+}
+
+const fetchSetDetails = async (videoIds: string[]): Promise<FetchedSetData[]> => {
+    if (!videoIds.length || !apiKey) {
+        console.error("Missing Video IDs or API Key for YouTube fetch.");
+        const errorReason = !apiKey ? "Missing API Key" : "No valid video IDs";
+        return setData.map(input => ({
+            id: getYouTubeIdFromUrl(input.youtubeUrl) || `error-${Math.random()}`,
+            title: errorReason,
+            channelTitle: 'Error',
+            thumbnailUrl: null,
+            youtubeUrl: input.youtubeUrl,
+            publishedDate: null,
+        }));
+    }
+
+    const idsString = videoIds.join(',');
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${idsString}&key=${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`YouTube API Error: ${response.status} ${await response.text()}`);
+        }
+        const data: YouTubeApiResponse = await response.json();
+
+        // Create a map for quick lookup
+        const detailsMap = new Map<string, YouTubeVideoItem>();
+        data.items.forEach(item => detailsMap.set(item.id, item));
+
+        // Map fetched data, ensuring order matches input `videoIds`
+        return videoIds.map(id => {
+            const item = detailsMap.get(id);
+            if (!item) {
+                console.warn(`Set details not found for ID: ${id}`);
+                // Find original URL for fallback
+                const originalInput = setData.find(v => getYouTubeIdFromUrl(v.youtubeUrl) === id);
+                return {
+                    id: id,
+                    title: 'Video Not Found',
+                    channelTitle: 'Unknown',
+                    thumbnailUrl: null,
+                    youtubeUrl: originalInput ? originalInput.youtubeUrl : '#',
+                    publishedDate: null,
+                };
+            }
+
+            // Prefer 'high' or 'medium' thumbnail, fallback to default
+            const snippet = item.snippet;
+            const thumbnailUrl = snippet.thumbnails.high?.url || snippet.thumbnails.medium?.url || snippet.thumbnails.default?.url || null;
+            const publishedDate = snippet.publishedAt ? parseISO(snippet.publishedAt) : null;
+            const originalInput = setData.find(v => getYouTubeIdFromUrl(v.youtubeUrl) === id)!;
+
+            return {
+                id: item.id,
+                title: snippet.title,
+                channelTitle: snippet.channelTitle,
+                thumbnailUrl: thumbnailUrl,
+                youtubeUrl: originalInput.youtubeUrl, // Use original URL for linking
+                publishedDate: publishedDate,
+            };
+        });
+
+    } catch (error) {
+        console.error('Failed to fetch set details from YouTube:', error);
+        // Return placeholder data for all sets on generic fetch error
+        return setData.map(input => {
+            const id = getYouTubeIdFromUrl(input.youtubeUrl);
+            return {
+                id: id || `error-${Math.random()}`,
+                title: 'Error Loading Set',
+                channelTitle: 'Error',
+                thumbnailUrl: null,
+                youtubeUrl: input.youtubeUrl,
+                publishedDate: null,
+            };
+        });
+    }
+};
+
+// Main execution
+const videoIds = setData.map(v => getYouTubeIdFromUrl(v.youtubeUrl)).filter((id): id is string => id !== null);
+let sets: FetchedSetData[] = [];
+
+if (videoIds.length > 0) {
+    sets = await fetchSetDetails(videoIds);
+} else {
+     console.warn("No valid YouTube Set IDs extracted from URLs.");
+     // Provide placeholder data if no IDs are valid
+     sets = setData.map((input, index) => ({
+        id: `placeholder-${index}`,
+        title: 'Invalid URL',
+        channelTitle: 'Unknown',
+        thumbnailUrl: null,
+        youtubeUrl: input.youtubeUrl,
+        publishedDate: null
+    }));
+}
+---
+
+<div class="flex flex-col items-center justify-between">
+    <div class="w-full flex flex-row items-baseline justify-between">
+        <p class="text-[#99AABB] text-md font-light uppercase select-none">Favourite Sets</p>
+        <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(date, 'MMMM d, yyyy')}</p>
+    </div>
+    <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
+
+    <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+        {sets.map(set => (
+            <a href={set.youtubeUrl} target="_blank" rel="noopener noreferrer" class="block group relative" title={`Watch ${set.title} by ${set.channelTitle} on YouTube`}>
+                <div
+                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs px-3 py-1.5
+                           bg-[#435666] text-white/75 text-xs font-medium rounded-md shadow-lg
+                           opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100
+                           transition-all duration-200 ease-in-out pointer-events-none z-10"
+                >
+                    {set.title} - {set.channelTitle}
+                    {set.publishedDate && (
+                        <span class="block text-white/60 text-[10px] mt-0.5">
+                            {formatDistanceToNowStrict(set.publishedDate, { addSuffix: true })}
+                        </span>
+                    )}
+                    <div class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0
+                                border-x-8 border-x-transparent
+                                border-t-8 border-[#435666]">
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    {set.thumbnailUrl ? (
+                        <Image
+                            src={set.thumbnailUrl}
+                            alt={`Thumbnail for ${set.title}`}
+                            width={320}
+                            height={180}
+                            class="w-full h-auto rounded-sm shadow-lg aspect-video object-cover outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500"
+                        />
+                    ) : (
+                        <div class="w-full aspect-video bg-gray-700 rounded-sm flex items-center justify-center outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500">
+                            <span class="text-white text-sm text-center p-2">No Thumbnail</span>
+                        </div>
+                    )}
+                </div>
+            </a>
+        ))}
+    </div>
+</div>

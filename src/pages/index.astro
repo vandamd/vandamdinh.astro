@@ -2,10 +2,13 @@
 import "../styles/global.css";
 import About from "../components/About.astro";
 import FavouriteFilms from "../components/FavouriteFilms.astro";
+import FavouriteBooks from "../components/FavouriteBooks.astro";
 import MusicActivity from "../components/MusicActivity.astro";
 import Goals from "../components/Goals.astro";
 import FavouriteAlbums from "../components/FavouriteAlbums.astro";
 import FavouriteTracks from "../components/FavouriteTracks.astro";
+import FavouritePerformances from "../components/FavouritePerformances.astro";
+import FavouriteSets from "../components/FavouriteSets.astro";
 import FavouriteVideos from "../components/FavouriteVideos.astro";
 import FavouritePodcasts from "../components/FavouritePodcasts.astro";
 import BlogPosts from "../components/BlogPosts.astro";
@@ -199,8 +202,11 @@ if (!apiKey || !username) {
                             <Projects />
                         </div>
                         <FavouriteFilms />
+                        <FavouriteBooks />
                         <FavouriteAlbums />
                         <FavouriteTracks />
+                        <FavouritePerformances />
+                        <FavouriteSets />
                         <FavouriteVideos />
                         <FavouritePodcasts />
                         <div class="lg:hidden">

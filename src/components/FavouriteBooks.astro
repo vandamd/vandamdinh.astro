@@ -1,0 +1,100 @@
+---
+import { format } from 'date-fns';
+import { Image } from 'astro:assets';
+import data from '../content/favourite/books.yaml';
+
+interface BookInput {
+    title: string;
+    author: string;
+    note?: string;
+}
+
+const bookData: BookInput[] = data.books;
+const date = data.date;
+
+interface BookWithCover {
+    title: string;
+    author: string;
+    note?: string;
+    coverUrl: string | null;
+}
+
+// Fetch book cover URL from Longitood API
+const fetchBookCover = async (title: string, author: string): Promise<string | null> => {
+    try {
+        const encodedTitle = encodeURIComponent(title);
+        const encodedAuthor = encodeURIComponent(author);
+        const apiUrl = `https://bookcover.longitood.com/bookcover?book_title=${encodedTitle}&author_name=${encodedAuthor}`;
+
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.url || null;
+    } catch (error) {
+        console.error(`Failed to fetch cover for "${title}" by ${author}:`, error);
+        return null;
+    }
+};
+
+// Fetch all book covers
+const books: BookWithCover[] = await Promise.all(
+    bookData.map(async book => ({
+        title: book.title,
+        author: book.author,
+        note: book.note,
+        coverUrl: await fetchBookCover(book.title, book.author)
+    }))
+);
+---
+
+<div class="flex flex-col items-center justify-between">
+    <div class="w-full flex flex-row items-baseline justify-between">
+        <p class="text-[#99AABB] text-md font-light uppercase select-none">Favourite Books</p>
+        <p class="text-[#99AABB]/80 text-xs font-light uppercase">Updated {format(date, 'MMMM d, yyyy')}</p>
+    </div>
+    <div class="w-full h-[1px] bg-[#99AABB]/40 mt-1"></div>
+
+    <div class="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+        {books.map(book => (
+            <div class="block group relative cursor-pointer" title={`${book.title} by ${book.author}`}>
+                <div
+                    class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-xs px-3 py-1.5
+                           bg-[#435666] text-white/75 text-xs font-medium rounded-md shadow-lg
+                           opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100
+                           transition-all duration-200 ease-in-out pointer-events-none z-10"
+                >
+                    {book.title} by {book.author}
+                    {book.note && (
+                        <span class="block text-white/60 text-[10px] mt-0.5">
+                            {book.note}
+                        </span>
+                    )}
+                    <div class="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0
+                                border-x-8 border-x-transparent
+                                border-t-8 border-[#435666]">
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    {book.coverUrl ? (
+                        <Image
+                            src={book.coverUrl}
+                            alt={`Cover for ${book.title} by ${book.author}`}
+                            width={500}
+                            height={750}
+                            loading="eager"
+                            class="w-full h-auto rounded-r-lg shadow-lg outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500 aspect-[2/3] object-cover"
+                        />
+                    ) : (
+                        <div class="w-full aspect-[2/3] bg-gray-700 rounded-r-lg flex items-center justify-center outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500">
+                            <span class="text-white text-sm text-center p-2">No Cover Available</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        ))}
+    </div>
+</div>

@@ -10,7 +10,7 @@
 
 @theme {
     --font-sans: 'Inter', sans-serif;
-    --font-serif: 'Cormorant Garamond', serif;
+    --font-serif: 'EB Garamond', serif;
 }
 
 @keyframes slideUpFadeIn {
