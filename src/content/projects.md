@@ -1,8 +1,10 @@
 ---
 title: Projects
-date: 2025-05-29
+date: 2026-01-06
 ---
-**Spotify (Ongoing)** - Spotify client for the Light Phone III. Built with React Native, Expo, Spotify's Web API and Android SDK.
+**Echo (Ongoing)** - Spotify client for the Light Phone III. Built with React Native, Expo, Spotify's Web API and Android SDK.
+
+[Zero](https://github.com/vandamd/zero) - A camera app with minimal processing for the Light Phone III. Built with Kotlin.
 
 [Spots](https://spots.vandamdinh.com/), [Repo](https://github.com/vandamd/spots) - A web app to see library and room availability at the University of Bristol. Built with Next.js.
 
