@@ -172,7 +172,7 @@ if (!apiKey || !username) {
             src={myImage}
             transition:name="fade"
             alt="Vandam Dinh"
-            class="fade-in-image pointer-events-none absolute top-0 left-0 z-0 h-[800px] w-full -translate-y-[220px] mask-t-from-80% mask-x-from-73% mask-x-to-93% mask-b-to-70% mask-intersect object-cover lg:-translate-y-[80px]"
+            class="fade-in-image pointer-events-none absolute top-0 left-0 z-0 h-[800px] w-full -translate-y-[220px] mask-t-from-80% lg:mask-x-from-73% lg:mask-x-to-93% mask-b-to-70% mask-intersect object-cover lg:-translate-y-[80px]"
         />
 
         <div
@@ -197,6 +197,9 @@ if (!apiKey || !username) {
                         <About />
                         <div class="lg:hidden">
                             <Goals />
+                        </div>
+                        <div class="lg:hidden">
+                            <BlogPosts />
                         </div>
                         <div class="lg:hidden">
                             <Projects />
@@ -225,10 +228,10 @@ if (!apiKey || !username) {
                             <Goals />
                         </div>
                         <div class="hidden lg:block">
-                            <Projects />
+                            <BlogPosts />
                         </div>
                         <div class="hidden lg:block">
-                            <BlogPosts />
+                            <Projects />
                         </div>
                     </div>
                 </div>

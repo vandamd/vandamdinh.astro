@@ -86,7 +86,7 @@ const fetchTrackDetails = async (trackId: string, accessToken: string): Promise<
         const track: SpotifyTrack = await response.json();
 
         const coverImage = track.album.images.length > 0
-            ? (track.album.images.find(img => img.height >= 300 || img.width >=300) || track.album.images[0]).url
+            ? track.album.images.reduce((prev, current) => (prev.width * prev.height > current.width * current.height) ? prev : current).url
             : null;
         const artists = track.artists.map(a => a.name).join(', ');
 
@@ -133,10 +133,10 @@ if (!errorState && albumName) titleAttr += ` (Album: ${albumName})`;
         <Image
             src={imageUrl}
             alt={`Album cover for ${trackName} by ${artistName}`}
-            width={width}
-            height={height}
-            inferSize={true}
-            class="rounded-sm shadow-lg aspect-square object-cover outline outline-offset-0 outline-transparent"
+            width={640}
+            height={640}
+            quality={100}
+            class="rounded-sm shadow-lg aspect-square object-cover outline outline-offset-0 outline-transparent w-full h-full hover:scale-105 transition-transform ease-in-out duration-200 will-change-transform transform-gpu"
         />
     ) : (
         <div
