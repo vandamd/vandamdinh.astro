@@ -7,6 +7,8 @@
         "@astrojs/cloudflare": "^12.6.12",
         "@astrojs/markdoc": "^0.15.10",
         "@astrojs/react": "^4.4.2",
+        "@fontsource/cormorant-garamond": "^5.2.11",
+        "@fontsource/tiktok-sans": "^5.2.4",
         "@keystatic/astro": "^5.0.6",
         "@keystatic/core": "^0.5.48",
         "@tailwindcss/vite": "^4.2.1",
@@ -197,6 +199,10 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.4", "", { "dependencies": { "@floating-ui/dom": "^1.7.2" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-JbbpPhp38UmXDDAu60RJmbeme37Jbgsm7NrHGgzYYFKmblzRUh6Pa641dII6LsjwF4XlScDrde2UAzDo/b9KPw=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
+
+    "@fontsource/cormorant-garamond": ["@fontsource/cormorant-garamond@5.2.11", "", {}, "sha512-5JjpN023lhA5soijgVT0BdRGzmlijm402ppjccMd6h+vRE0mX2lJnE+41UPfnlidrkV9/rCo1mf58WZlHnB0CA=="],
+
+    "@fontsource/tiktok-sans": ["@fontsource/tiktok-sans@5.2.4", "", {}, "sha512-IsxYGosqv4TrUT7Cv4ioo/Vr+F9q7VzytL6CVxTmuNYfTEkra68rxcwVm7cVecezpumzZX58u8dPrY4k6cIBqw=="],
 
     "@formatjs/ecma402-abstract": ["@formatjs/ecma402-abstract@2.3.4", "", { "dependencies": { "@formatjs/fast-memoize": "2.2.7", "@formatjs/intl-localematcher": "0.6.1", "decimal.js": "^10.4.3", "tslib": "^2.8.0" } }, "sha512-qrycXDeaORzIqNhBOx0btnhpD1c+/qFIHAN9znofuMJX6QBwtbrmlpWfD4oiUUD2vJUOIYFA/gYtg2KAMGG7sA=="],
 

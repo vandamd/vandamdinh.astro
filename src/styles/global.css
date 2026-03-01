@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap");
+@import "@fontsource/cormorant-garamond";
+@import "@fontsource/tiktok-sans";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
