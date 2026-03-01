@@ -1,4 +1,4 @@
-@import "@fontsource/cormorant-garamond";
+@import "@fontsource/eb-garamond";
 @import "@fontsource/tiktok-sans";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
@@ -14,7 +14,7 @@
 
 @theme {
   --font-sans: "TikTok Sans", sans-serif;
-  --font-serif: "Cormorant Garamond", serif;
+  --font-serif: "EB Garamond", serif;
 }
 
 @keyframes slideUpFadeIn {

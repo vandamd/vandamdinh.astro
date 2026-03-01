@@ -7,7 +7,7 @@
         "@astrojs/cloudflare": "^12.6.12",
         "@astrojs/markdoc": "^0.15.10",
         "@astrojs/react": "^4.4.2",
-        "@fontsource/cormorant-garamond": "^5.2.11",
+        "@fontsource/eb-garamond": "^5.2.7",
         "@fontsource/tiktok-sans": "^5.2.4",
         "@keystatic/astro": "^5.0.6",
         "@keystatic/core": "^0.5.48",
@@ -200,7 +200,7 @@
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
 
-    "@fontsource/cormorant-garamond": ["@fontsource/cormorant-garamond@5.2.11", "", {}, "sha512-5JjpN023lhA5soijgVT0BdRGzmlijm402ppjccMd6h+vRE0mX2lJnE+41UPfnlidrkV9/rCo1mf58WZlHnB0CA=="],
+    "@fontsource/eb-garamond": ["@fontsource/eb-garamond@5.2.7", "", {}, "sha512-V42tTlHDbnDo0+lENnXKWMx63Llq6Gfl2l7ozkoeRQN60S0jm6hEgCLlOT/5YyKAN9QZ0e2ofpy0rGKlz9jBrw=="],
 
     "@fontsource/tiktok-sans": ["@fontsource/tiktok-sans@5.2.4", "", {}, "sha512-IsxYGosqv4TrUT7Cv4ioo/Vr+F9q7VzytL6CVxTmuNYfTEkra68rxcwVm7cVecezpumzZX58u8dPrY4k6cIBqw=="],
 
