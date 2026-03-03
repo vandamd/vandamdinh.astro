@@ -13,16 +13,12 @@
 </div>
 
 <script>
-    const detailsContainer = document.getElementById('lastfm-details-container');
-    const statusTextElement = document.getElementById('music-status-text');
     const REFRESH_INTERVAL = 30000;
-
     let intervalId: number | undefined;
 
-    function renderSkeleton() {
-        if (!detailsContainer || !statusTextElement) return;
-        statusTextElement.textContent = '';
-        detailsContainer.innerHTML = `
+    function renderSkeleton(container: HTMLElement, status: HTMLElement) {
+        status.textContent = '';
+        container.innerHTML = `
             <div class="w-full flex flex-row items-center mt-4 animate-pulse">
                 <div class="w-12 h-12 rounded-sm bg-gray-700/50 mr-3"></div>
                 <div class="flex flex-col justify-center overflow-hidden flex-1 space-y-2">
@@ -33,10 +29,9 @@
         `;
     }
 
-    function renderError(message = "Couldn't load music activity.") {
-        if (!detailsContainer || !statusTextElement) return;
-        statusTextElement.textContent = 'Error';
-        detailsContainer.innerHTML = `
+    function renderError(container: HTMLElement, status: HTMLElement, message = "Couldn't load music activity.") {
+        status.textContent = 'Error';
+        container.innerHTML = `
             <p id="track-error" class="text-[#99AABB]/70 text-sm italic mt-4">${message}</p>
         `;
     }
@@ -52,9 +47,9 @@
       statusText: string | null;
     }
 
-    function renderTrackDetails(track: TrackApiResponse['track'], status: string) {
-        if (!detailsContainer || !statusTextElement || !track) return;
-        statusTextElement.textContent = status;
+    function renderTrackDetails(container: HTMLElement, statusEl: HTMLElement, track: TrackApiResponse['track'], statusText: string) {
+        if (!track) return;
+        statusEl.textContent = statusText;
 
         const albumArtHtml = track.albumArt
             ? `<img
@@ -73,7 +68,7 @@
                     ?
                  </div>`;
 
-        detailsContainer.innerHTML = `
+        container.innerHTML = `
             <a id="track-link" href="${track.url}" target="_blank" rel="noopener noreferrer" class="w-full flex flex-row items-center mt-4 group">
                 <div id="album-art-container" class="relative w-12 h-12 mr-3 flex-shrink-0">
                     ${albumArtHtml}
@@ -90,7 +85,7 @@
         `;
     }
 
-    async function fetchAndUpdateMusicData() {
+    async function fetchAndUpdateMusicData(container: HTMLElement, status: HTMLElement) {
         const endpoint = `/api/lastfm.json?t=${Date.now()}`;
 
         try {
@@ -102,28 +97,34 @@
                     const errorData: TrackApiResponse = await response.json();
                     errorMsg = errorData.statusText || errorMsg;
                 } catch (parseError) { }
-                console.error('API Route Error:', response.status, response.statusText, errorMsg);
-                renderError(errorMsg);
+                renderError(container, status, errorMsg);
                 return;
             }
 
             const data: TrackApiResponse = await response.json();
 
             if (data.track) {
-                renderTrackDetails(data.track, data.statusText || '');
+                renderTrackDetails(container, status, data.track, data.statusText || '');
             } else {
-                 renderError(data.statusText || "No music activity found.");
+                 renderError(container, status, data.statusText || "No music activity found.");
             }
         } catch (error) {
-            console.error('Failed to fetch from API route:', error);
-            renderError("Network Error");
+            renderError(container, status, "Network Error");
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        renderSkeleton();
-        fetchAndUpdateMusicData();
-        intervalId = window.setInterval(fetchAndUpdateMusicData, REFRESH_INTERVAL);
-    });
+    function setupMusicActivity() {
+        if (intervalId) clearInterval(intervalId);
+        
+        const detailsContainer = document.getElementById('lastfm-details-container');
+        const statusTextElement = document.getElementById('music-status-text');
 
+        if (!detailsContainer || !statusTextElement) return;
+
+        renderSkeleton(detailsContainer as HTMLElement, statusTextElement as HTMLElement);
+        fetchAndUpdateMusicData(detailsContainer as HTMLElement, statusTextElement as HTMLElement);
+        intervalId = window.setInterval(() => fetchAndUpdateMusicData(detailsContainer as HTMLElement, statusTextElement as HTMLElement), REFRESH_INTERVAL);
+    }
+
+    document.addEventListener('astro:page-load', setupMusicActivity);
 </script>

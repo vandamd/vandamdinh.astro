@@ -15,6 +15,7 @@ import BlogPosts from "../components/BlogPosts.astro";
 import Projects from "../components/Projects.astro";
 import DarkBackdrop from "../components/DarkBackdrop.astro";
 import { Image } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
 
 import myImage from "../assets/main.jpg";
 
@@ -42,53 +43,7 @@ let lastFmData: MusicActivityProps = { track: null, statusText: null };
 const apiKey = import.meta.env.LASTFM_API_KEY;
 const username = import.meta.env.LASTFM_USERNAME;
 
-if (!apiKey || !username) {
-    console.error(
-        "Last.fm API key or username missing in environment variables.",
-    );
-    lastFmData.statusText = "Server Misconfiguration";
-} else {
-    const endpoint = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json&limit=1`;
-    try {
-        const res = await fetch(endpoint);
-        if (!res.ok) {
-            throw new Error(
-                `Last.fm API error: ${res.statusText} (Status: ${res.status})`,
-            );
-        }
-        const data = await res.json();
-
-        if (
-            data.recenttracks &&
-            data.recenttracks.track &&
-            data.recenttracks.track.length > 0
-        ) {
-            const trackData: LastFmTrackData = data.recenttracks.track[0];
-            const albumArt = trackData.image.find(
-                (img) => img.size === "medium",
-            );
-            const isNowPlaying = trackData["@attr"]?.nowplaying === "true";
-
-            lastFmData.track = {
-                name: trackData.name,
-                artist: trackData.artist["#text"],
-                albumArt: albumArt ? albumArt["#text"] : null,
-                url: trackData.url,
-                nowPlaying: isNowPlaying,
-            };
-            lastFmData.statusText = isNowPlaying
-                ? "Now Playing"
-                : "Last Played";
-        } else {
-            lastFmData.statusText = "No Recent Tracks";
-        }
-    } catch (error) {
-        console.error("Failed to fetch Last.fm data:", error);
-        // Use error message if available, otherwise default
-        lastFmData.statusText =
-            error instanceof Error ? error.message : "API Fetch Error";
-    }
-}
+/* Removed blocking server-side fetch to improve navigation speed */
 ---
 
 <html class="overflow-x-hidden">
@@ -118,9 +73,10 @@ if (!apiKey || !username) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/jpg" href="/me.jpg" />
         <meta charset="utf-8" />
+        <ClientRouter />
     </head>
 
-    <body class="overflow-x-hidden bg-[#15181D]">
+    <body class="antialiased overflow-x-hidden bg-[#15181D]">
         <DarkBackdrop />
 
         <header
@@ -172,7 +128,7 @@ if (!apiKey || !username) {
             src={myImage}
             transition:name="fade"
             alt="Vandam Dinh"
-            class="fade-in-image pointer-events-none absolute top-0 left-0 z-0 h-[800px] w-full -translate-y-[220px] mask-t-from-80% mask-x-from-73% mask-x-to-93% mask-b-to-70% mask-intersect object-cover lg:-translate-y-[80px]"
+            class="fade-in-image pointer-events-none absolute top-0 left-0 z-0 h-[800px] w-full -translate-y-[220px] mask-t-from-80% lg:mask-x-from-73% lg:mask-x-to-93% mask-b-to-70% mask-intersect object-cover lg:-translate-y-[80px]"
         />
 
         <div
@@ -197,6 +153,9 @@ if (!apiKey || !username) {
                         <About />
                         <div class="lg:hidden">
                             <Goals />
+                        </div>
+                        <div class="lg:hidden">
+                            <BlogPosts />
                         </div>
                         <div class="lg:hidden">
                             <Projects />
@@ -225,10 +184,10 @@ if (!apiKey || !username) {
                             <Goals />
                         </div>
                         <div class="hidden lg:block">
-                            <Projects />
+                            <BlogPosts />
                         </div>
                         <div class="hidden lg:block">
-                            <BlogPosts />
+                            <Projects />
                         </div>
                     </div>
                 </div>
