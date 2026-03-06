@@ -4,7 +4,7 @@ date: 2026-02-14
 ---
 [No Scrolling](https://noscroll.ing) - Simple site for my Light Phone III apps. Built with Astro.
 
-[**Echo**](https://github.com/vandamd/echo) - Spotify client for the Light Phone III. Built with React Native, Expo, Spotify's Web API and Android SDK.
+[Echo](https://github.com/vandamd/echo) - Spotify client for the Light Phone III. Built with React Native, Expo, Spotify's Web API and Android SDK.
 
 [Zero](https://github.com/vandamd/zero) - A camera app with minimal processing for the Light Phone III. Built with Kotlin.
 
