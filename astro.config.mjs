@@ -40,6 +40,7 @@ export default defineConfig({
 
   redirects: {
     "/resume": "/vandam-resume.pdf",
+    "/thesis": "/vandam-thesis.pdf",
   },
 
   adapter: cloudflare(),
