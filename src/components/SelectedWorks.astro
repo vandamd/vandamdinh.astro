@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+import noScrollingImage from "../assets/selected-works/no-scrolling.png";
+import thesisImage from "../assets/selected-works/thesis.png";
+import resumeImage from "../assets/selected-works/resume.png";
+import hikesImage from "../assets/selected-works/hikes.png";
+
+const works = [
+  {
+    title: "No Scrolling",
+    href: "https://noscroll.ing",
+    image: noScrollingImage,
+  },
+  {
+    title: "Thesis",
+    href: "https://vandamdinh.com/thesis",
+    image: thesisImage,
+  },
+  {
+    title: "Résumé",
+    href: "https://vandamdinh.com/resume",
+    image: resumeImage,
+  },
+  {
+    title: "Hikes",
+    href: "https://hike.vandamdinh.com",
+    image: hikesImage,
+  },
+];
+---
+
+<div class="flex flex-col items-center justify-between">
+  <div class="flex w-full flex-row items-baseline justify-between">
+    <p class="text-md font-light text-[#99AABB] uppercase select-none">
+      Highlights
+    </p>
+  </div>
+  <div class="mt-1 h-[1px] w-full bg-[#99AABB]/40"></div>
+
+  <div class="mt-4 grid w-full grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    {
+      works.map((work) => {
+        const card = (
+          <>
+            <div class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 w-max max-w-xs -translate-x-1/2 scale-95 rounded-md bg-[#435666] px-3 py-1.5 text-xs font-medium text-white/75 opacity-0 shadow-lg transition-all duration-200 ease-in-out group-hover:scale-100 group-hover:opacity-100">
+              {work.tooltip ?? work.title}
+              <div class="absolute top-full left-1/2 h-0 w-0 -translate-x-1/2 border-x-8 border-t-8 border-x-transparent border-t-[#435666]"></div>
+            </div>
+
+            <div class="flex flex-col items-center">
+              <Image
+                src={work.image}
+                alt={work.title}
+                width={500}
+                height={750}
+                loading="eager"
+                class="aspect-[2/3] h-auto w-full rounded-sm object-cover shadow-lg outline outline-offset-0 outline-transparent transition-all duration-200 ease-in-out group-hover:outline-3 group-hover:outline-offset-[-3px] group-hover:outline-green-500"
+              />
+            </div>
+          </>
+        );
+
+        return (
+          <a
+            href={work.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group relative block"
+            title={`Open ${work.title}`}
+          >
+            {card}
+          </a>
+        );
+      })
+    }
+  </div>
+</div>

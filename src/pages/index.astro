@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import About from "../components/About.astro";
 import FavouriteFilms from "../components/FavouriteFilms.astro";
+import SelectedWorks from "../components/SelectedWorks.astro";
 import FavouriteBooks from "../components/FavouriteBooks.astro";
 import MusicActivity from "../components/MusicActivity.astro";
 import Goals from "../components/Goals.astro";
@@ -160,6 +161,7 @@ const username = import.meta.env.LASTFM_USERNAME;
                         <div class="lg:hidden">
                             <Projects />
                         </div>
+                        <SelectedWorks />
                         <FavouriteFilms />
                         <!-- <FavouriteBooks /> -->
                         <FavouriteAlbums />
