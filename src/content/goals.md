@@ -1,8 +1,8 @@
 ---
 title: "Goals"
-date: 2025-05-29
+date: 2026-06-02
 ---
 
-1. Complete my degree
+1. Relax
 2. Send hard boulders
 3. Sleep well
